@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김민수 - 개인 이력서</title>
+    <style>
+        /* 기본 스타일 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* 컨테이너 스타일 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 헤더 섹션 */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* 교육 섹션 */
+        .education-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .education-item h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .education-item .period {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .education-item .description {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        /* 경험 섹션 */
+        .experience-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .experience-item h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .experience-item .company {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .experience-item .period {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        /* 스킬 섹션 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #667eea;
+        }
+
+        .skill-category h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .skill-bar {
+            width: 60%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* 프로젝트 섹션 */
+        .project-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .project-item h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        /* 수상 섹션 */
+        .award-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 10px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .award-item h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .award-item .date {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 편집 버튼 스타일 */
+        .edit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #5a6fd8;
+        }
+
+        /* 푸터 */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 섹션 - 기본 정보 -->
+        <div class="header">
+            <div class="profile-img">김</div>
+            <h1 id="name">김민수</h1>
+            <p id="title">고등학생 / 예비 개발자</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span id="email">minsu.kim@email.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span id="phone">010-1234-5678</span>
+                </div>
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span id="address">서울특별시</span>
+                </div>
+                <div class="contact-item">
+                    <span>🔗</span>
+                    <span id="github">github.com/minsu</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- 교육 섹션 -->
+            <div class="card">
+                <h2>🎓 학력</h2>
+                <div id="education-list">
+                    <div class="education-item">
+                        <h3>○○고등학교</h3>
+                        <div class="period">2022.03 - 2025.02 (예정)</div>
+                        <div class="description">
+                            • 전체 성적: 상위 10%<br>
+                            • 주요 과목: 수학, 과학, 정보<br>
+                            • 특별활동: 컴퓨터 동아리 회장
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editSection('education')">편집</button>
+            </div>
+
+            <!-- 경험 섹션 -->
+            <div class="card">
+                <h2>💼 경험</h2>
+                <div id="experience-list">
+                    <div class="experience-item">
+                        <h3>학생회 활동</h3>
+                        <div class="company">○○고등학교 학생회</div>
+                        <div class="period">2023.03 - 2024.02</div>
+                        <div class="description">
+                            • 학생회 임원으로 활동<br>
+                            • 학교 축제 기획 및 운영<br>
+                            • 학생 의견 수렴 및 전달
+                        </div>
+                    </div>
+                    <div class="experience-item">
+                        <h3>봉사활동</h3>
+                        <div class="company">지역 도서관</div>
+                        <div class="period">2022.06 - 현재</div>
+                        <div class="description">
+                            • 주말 도서 정리 및 대출 업무 지원<br>
+                            • 어린이 독서 프로그램 도우미<br>
+                            • 총 120시간 봉사활동 완료
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editSection('experience')">편집</button>
+            </div>
+
+            <!-- 스킬 섹션 -->
+            <div class="card">
+                <h2>🛠️ 스킬</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>프로그래밍</h3>
+                        <div class="skill-item">
+                            <span>Python</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>JavaScript</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>HTML/CSS</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>언어</h3>
+                        <div class="skill-item">
+                            <span>한국어</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>영어</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editSection('skills')">편집</button>
+            </div>
+
+            <!-- 프로젝트 섹션 -->
+            <div class="card">
+                <h2>🚀 프로젝트</h2>
+                <div id="project-list">
+                    <div class="project-item">
+                        <h3>학교 시간표 앱</h3>
+                        <div class="description">
+                            고등학교 시간표를 관리할 수 있는 웹 애플리케이션을 개발했습니다. 
+                            친구들과 시간표를 공유하고 일정을 관리할 수 있는 기능을 포함했습니다.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">HTML</span>
+                            <span class="tag">CSS</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <h3>파이썬 계산기</h3>
+                        <div class="description">
+                            GUI를 사용한 계산기 프로그램을 Python으로 개발했습니다. 
+                            기본 연산뿐만 아니라 과학 계산 기능도 포함했습니다.
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Tkinter</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editSection('projects')">편집</button>
+            </div>
+
+            <!-- 수상 및 자격증 섹션 -->
+            <div class="card">
+                <h2>🏆 수상 및 자격증</h2>
+                <div id="awards-list">
+                    <div class="award-item">
+                        <h4>정보처리기능사</h4>
+                        <div class="date">2024.05</div>
+                        <div class="description">한국산업인력공단</div>
+                    </div>
+                    <div class="award-item">
+                        <h4>교내 프로그래밍 대회 2위</h4>
+                        <div class="date">2023.11</div>
+                        <div class="description">○○고등학교</div>
+                    </div>
+                    <div class="award-item">
+                        <h4>영어 말하기 대회 우수상</h4>
+                        <div class="date">2023.09</div>
+                        <div class="description">○○고등학교</div>
+                    </div>
+                </div>
+                <button class="edit-btn" onclick="editSection('awards')">편집</button>
+            </div>
+
+            <!-- 자기소개 섹션 -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <h2>👋 자기소개</h2>
+                <div id="introduction">
+                    <p style="margin-bottom: 15px;">
+                        안녕하세요! 저는 기술에 대한 열정을 가진 고등학생입니다. 
+                        어릴 때부터 컴퓨터와 프로그래밍에 관심이 많았고, 
+                        현재는 웹 개발과 소프트웨어 개발 분야를 집중적으로 공부하고 있습니다.
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        학교에서는 컴퓨터 동아리 활동을 통해 다양한 프로젝트를 진행하며 
+                        실무 경험을 쌓고 있습니다. 또한 온라인 강의와 개인 프로젝트를 통해 
+                        최신 기술 트렌드를 따라가려 노력하고 있습니다.
+                    </p>
+                    <p>
+                        미래에는 사용자에게 가치 있는 서비스를 제공하는 개발자가 되고 싶습니다. 
+                        지속적인 학습과 성장을 통해 더 나은 개발자로 발전해 나가겠습니다.
+                    </p>
+                </div>
+                <button class="edit-btn" onclick="editSection('introduction')">편집</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 김민수. 이 이력서는 정기적으로 업데이트됩니다.</p>
+        </div>
+    </div>
+
+    <script>
+        // 각 섹션 편집 기능
+        function editSection(section) {
+            // 실제 구현에서는 모달이나 별도 편집 페이지로 이동할 수 있습니다
+            alert(`${section} 섹션을 편집하겠습니다. 실제 구현에서는 편집 폼이 나타납니다.`);
+            
+            // 예시: 간단한 프롬프트로 기본 정보 편집
+            if (section === 'basic') {
+                editBasicInfo();
+            }
+        }
+
+        // 기본 정보 편집 예시
+        function editBasicInfo() {
+            const name = prompt('이름을 입력하세요:', document.getElementById('name').textContent);
+            const title = prompt('직책/상태를 입력하세요:', document.getElementById('title').textContent);
+            const email = prompt('이메일을 입력하세요:', document.getElementById('email').textContent);
+            const phone = prompt('전화번호를 입력하세요:', document.getElementById('phone').textContent);
+
+            if (name) document.getElementById('name').textContent = name;
+            if (title) document.getElementById('title').textContent = title;
+            if (email) document.getElementById('email').textContent = email;
+            if (phone) document.getElementById('phone').textContent = phone;
+
+            // 프로필 이미지 첫 글자도 업데이트
+            if (name) {
+                document.querySelector('.profile-img').textContent = name.charAt(0);
+            }
+        }
+
+        // 스킬 진행률 애니메이션
+        function animateSkills() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        }
+
+        // 페이지 로드 시 스킬 애니메이션 실행
+        window.addEventListener('load', () => {
+            setTimeout(animateSkills, 1000);
+        });
+
+        // 인쇄용 스타일 추가
+        function printResume() {
+            window.print();
+        }
+
+        // 스크롤 시 카드 애니메이션
+        function handleScroll() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // 초기 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            // 카드 초기 상태 설정
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+
+            // 스크롤 이벤트 리스너 추가
+            window.addEventListener('scroll', handleScroll);
+            
+            // 초기 애니메이션 실행
+            setTimeout(handleScroll, 200);
+        });
+
+        // 섹션별 데이터 관리 객체 (실제 구현에서는 데이터베이스나 로컬 스토리지 사용)
+        const resumeData = {
+            basicInfo: {
+                name: '김민수',
+                title: '고등학생 / 예비 개발자',
+                email: 'minsu.kim@email.com',
+                phone: '010-1234-5678',
+                address: '서울특별시',
+                github: 'github.com/minsu'
+            },
+            education: [
+                {
+                    school: '○○고등학교',
+                    period: '2022.03 - 2025.02 (예정)',
+                    description: '전체 성적: 상위 10%\n주요 과목: 수학, 과학, 정보\n특별활동: 컴퓨터 동아리 회장'
+                }
+            ],
+            experience: [
+                {
+                    title: '학생회 활동',
+                    company: '○○고등학교 학생회',
+                    period: '2023.03 - 2024.02',
+                    description: '학생회 임원으로 활동\n학교 축제 기획 및 운영\n학생 의견 수렴 및 전달'
+                }
+            ]
+            // 다른 섹션들도 필요에 따라 추가 가능
+        };
+
+        // 데이터 저장 및 불러오기 함수 (추후 확장 가능)
+        function saveData() {
+            // 실제 구현에서는 서버나 로컬 스토리지에 저장
+            console.log('데이터 저장됨:', resumeData);
+        }
+
+        function loadData() {
+            // 실제 구현에서는 저장된 데이터를 불러와서 화면에 표시
+            console.log('데이터 불러옴:', resumeData);
+        }
+    </script>
+</body>
+</html>
