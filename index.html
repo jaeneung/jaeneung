@@ -192,6 +192,29 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .student-grade-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .skill-group {
@@ -579,12 +602,52 @@
             });
         }
         
+        // 등급 계산 함수
+        function calculateGrade(levels) {
+            const levelCount = {
+                '입문': 0,
+                '초급': 0,
+                '중급': 0,
+                '고급': 0
+            };
+            
+            // 각 레벨별 개수 계산
+            Object.values(levels).forEach(level => {
+                levelCount[level]++;
+            });
+            
+            // 등급 결정 로직
+            if (levelCount['고급'] === 4) {
+                return { grade: '포세이돈', emoji: '🔱', color: '#FFD700' }; // 금색
+            } else if (levelCount['중급'] === 4) {
+                return { grade: '씹붕어', emoji: '🐟', color: '#FF6B6B' }; // 빨간색
+            } else if (levelCount['초급'] === 4) {
+                return { grade: '올챙이', emoji: '🐸', color: '#4ECDC4' }; // 청록색
+            } else if (levelCount['입문'] === 4) {
+                return { grade: '물방개', emoji: '🪲', color: '#95A5A6' }; // 회색
+            } else if (levelCount['고급'] >= 2) {
+                return { grade: '상급자', emoji: '🏊‍♀️', color: '#9B59B6' }; // 보라색
+            } else if (levelCount['중급'] >= 2) {
+                return { grade: '중급자', emoji: '🏊‍♂️', color: '#3498DB' }; // 파란색
+            } else if (levelCount['초급'] >= 2) {
+                return { grade: '초보자', emoji: '🤿', color: '#F39C12' }; // 주황색
+            } else {
+                return { grade: '새내기', emoji: '🏊', color: '#BDC3C7' }; // 연회색
+            }
+        }
+
         // 학생 카드 생성
         function createStudentCard(student) {
+            const gradeInfo = calculateGrade(student.levels);
             const card = document.createElement('div');
             card.className = 'student-card';
             card.innerHTML = `
-                <div class="student-name">🏊‍♂️ ${student.name} (${student.grade})</div>
+                <div class="student-name">
+                    🏊‍♂️ ${student.name} (${student.grade})
+                    <span class="student-grade-badge" style="background: ${gradeInfo.color}">
+                        ${gradeInfo.emoji} ${gradeInfo.grade}
+                    </span>
+                </div>
                 
                 <div class="skill-group">
                     <label class="skill-label">🏊‍♀️ 자유형 레벨</label>
@@ -648,6 +711,34 @@
             
             // 데이터 업데이트
             students[studentId].levels[skill] = level;
+            
+            // 등급 실시간 업데이트
+            updateStudentGrade(studentId);
+        }
+        
+        // 학생 등급 실시간 업데이트
+        function updateStudentGrade(studentId) {
+            const student = students[studentId];
+            const gradeInfo = calculateGrade(student.levels);
+            
+            // 해당 학생 카드의 등급 배지 찾아서 업데이트
+            const studentCards = document.querySelectorAll('.student-card');
+            studentCards.forEach(card => {
+                const saveBtn = card.querySelector('.save-btn');
+                if (saveBtn && saveBtn.onclick.toString().includes(studentId)) {
+                    const gradeBadge = card.querySelector('.student-grade-badge');
+                    if (gradeBadge) {
+                        gradeBadge.innerHTML = `${gradeInfo.emoji} ${gradeInfo.grade}`;
+                        gradeBadge.style.background = gradeInfo.color;
+                        
+                        // 등급 변경 애니메이션
+                        gradeBadge.style.transform = 'scale(1.2)';
+                        setTimeout(() => {
+                            gradeBadge.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                }
+            });
         }
         
         // 평가 저장
