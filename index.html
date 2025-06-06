@@ -156,7 +156,7 @@
         
         .student-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -230,6 +230,20 @@
         
         .technical-skills {
             background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .special-skills {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .play-skills {
+            background: #f3e5f5;
             border-radius: 10px;
             padding: 1rem;
             margin-bottom: 0.5rem;
@@ -667,45 +681,65 @@
                 name: '김민수',
                 grade: '3학년',
                 skills: {
-                    freestyle: { streamline: 3, armStroke: 4, kick: 3, breathing: 2, turn: 3 },
-                    backstroke: { streamline: 2, armStroke: 3, kick: 2, bodyPosition: 2, turn: 2 },
-                    breaststroke: { streamline: 3, armStroke: 3, kick: 4, timing: 3, turn: 2 },
-                    butterfly: { streamline: 2, armStroke: 2, kick: 1, timing: 2, turn: 1 }
+                    freestyle: { streamline: 3, armStroke: 4, kick: 3, breathing: 2 },
+                    backstroke: { streamline: 2, armStroke: 3, kick: 2, bodyPosition: 2 },
+                    breaststroke: { streamline: 3, armStroke: 3, kick: 4, timing: 3 },
+                    butterfly: { streamline: 2, armStroke: 2, kick: 1, timing: 2 }
                 },
-                comment: '자유형 팔젓기가 우수합니다. 호흡 연습이 더 필요해요.'
+                uniqueSkills: { start: 3, turn: 2, underwater: 3 },
+                playSkills: { rolling: 4, eyesOpen: 5, dolphinKick: 2, waterGun: 5, diving: 3 },
+                comment: '자유형 팔젓기가 우수합니다.'
             },
             2: {
                 id: 2,
                 name: '이지은',
                 grade: '4학년',
                 skills: {
-                    freestyle: { streamline: 4, armStroke: 5, kick: 4, breathing: 4, turn: 4 },
-                    backstroke: { streamline: 4, armStroke: 4, kick: 3, bodyPosition: 4, turn: 3 },
-                    breaststroke: { streamline: 4, armStroke: 4, kick: 5, timing: 4, turn: 4 },
-                    butterfly: { streamline: 3, armStroke: 3, kick: 3, timing: 3, turn: 2 }
+                    freestyle: { streamline: 4, armStroke: 5, kick: 4, breathing: 4 },
+                    backstroke: { streamline: 4, armStroke: 4, kick: 3, bodyPosition: 4 },
+                    breaststroke: { streamline: 4, armStroke: 4, kick: 5, timing: 4 },
+                    butterfly: { streamline: 3, armStroke: 3, kick: 3, timing: 3 }
                 },
-                comment: '전반적으로 우수한 실력을 보여줍니다.'
+                uniqueSkills: { start: 4, turn: 4, underwater: 4 },
+                playSkills: { rolling: 5, eyesOpen: 5, dolphinKick: 4, waterGun: 4, diving: 4 },
+                comment: '전반적으로 우수한 실력입니다.'
             },
             3: {
                 id: 3,
                 name: '박준호',
                 grade: '2학년',
                 skills: {
-                    freestyle: { streamline: 2, armStroke: 2, kick: 1, breathing: 1, turn: 1 },
-                    backstroke: { streamline: 1, armStroke: 2, kick: 1, bodyPosition: 1, turn: 1 },
-                    breaststroke: { streamline: 2, armStroke: 1, kick: 2, timing: 1, turn: 1 },
-                    butterfly: { streamline: 1, armStroke: 0, kick: 0, timing: 0, turn: 0 }
+                    freestyle: { streamline: 2, armStroke: 2, kick: 1, breathing: 1 },
+                    backstroke: { streamline: 1, armStroke: 2, kick: 1, bodyPosition: 1 },
+                    breaststroke: { streamline: 2, armStroke: 1, kick: 2, timing: 1 },
+                    butterfly: { streamline: 1, armStroke: 0, kick: 0, timing: 0 }
                 },
-                comment: '기본기 연습에 집중하고 있어요.'
+                uniqueSkills: { start: 1, turn: 0, underwater: 1 },
+                playSkills: { rolling: 3, eyesOpen: 2, dolphinKick: 0, waterGun: 4, diving: 1 },
+                comment: '기본기 연습 중입니다.'
             }
         };
         
         // 기술 요소 정의
         const skillElements = {
-            freestyle: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', breathing: '호흡', turn: '턴' },
-            backstroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', bodyPosition: '몸자세', turn: '턴' },
-            breaststroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍', turn: '턴' },
-            butterfly: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍', turn: '턴' }
+            freestyle: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', breathing: '호흡' },
+            backstroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', bodyPosition: '몸자세' },
+            breaststroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍' },
+            butterfly: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍' }
+        };
+        
+        const uniqueElements = {
+            start: '🚀 스타트',
+            turn: '🔄 턴',
+            underwater: '🌊 잠영'
+        };
+        
+        const playElements = {
+            rolling: '🎯 구르기',
+            eyesOpen: '👀 물속에서 눈뜨기',
+            dolphinKick: '🐬 돌핀킥',
+            waterGun: '🔫 손물총',
+            diving: '🤿 잠수'
         };
         
         const strokeNames = {
@@ -726,7 +760,7 @@
             }, 3000);
         }
         
-        // 총점 계산
+        // 점수 계산 함수들
         function calculateTotalScore(skills) {
             let total = 0;
             Object.values(skills).forEach(stroke => {
@@ -737,7 +771,18 @@
             return total;
         }
         
-        // 영법별 평균 계산
+        function calculateUniqueScore(uniqueSkills) {
+            return Object.values(uniqueSkills).reduce((total, score) => total + score, 0);
+        }
+        
+        function calculatePlayScore(playSkills) {
+            return Object.values(playSkills).reduce((total, score) => total + score, 0);
+        }
+        
+        function calculateOverallScore(skills, uniqueSkills, playSkills) {
+            return calculateTotalScore(skills) + calculateUniqueScore(uniqueSkills) + calculatePlayScore(playSkills);
+        }
+        
         function calculateStrokeAverage(stroke) {
             const scores = Object.values(stroke);
             const sum = scores.reduce((a, b) => a + b, 0);
@@ -747,7 +792,8 @@
         // 등급 계산
         function calculateGrade(skills) {
             const totalScore = calculateTotalScore(skills);
-            const percentage = (totalScore / 100) * 100;
+            const maxScore = 80;
+            const percentage = (totalScore / maxScore) * 100;
             
             if (percentage >= 90) return { grade: '포세이돈', emoji: '🔱', color: '#FFD700' };
             if (percentage >= 80) return { grade: '씹붕어', emoji: '🐟', color: '#FF6B6B' };
@@ -762,8 +808,8 @@
         // 현재 순위 계산
         function getCurrentRanking(studentId) {
             const sortedStudents = Object.values(students).sort((a, b) => {
-                const scoreA = calculateTotalScore(a.skills);
-                const scoreB = calculateTotalScore(b.skills);
+                const scoreA = calculateOverallScore(a.skills, a.uniqueSkills, a.playSkills);
+                const scoreB = calculateOverallScore(b.skills, b.uniqueSkills, b.playSkills);
                 return scoreB - scoreA;
             });
             return sortedStudents.findIndex(student => student.id == studentId) + 1;
@@ -837,7 +883,10 @@
         // 학생 카드 생성
         function createStudentCard(student) {
             const gradeInfo = calculateGrade(student.skills);
-            const totalScore = calculateTotalScore(student.skills);
+            const basicScore = calculateTotalScore(student.skills);
+            const uniqueScore = calculateUniqueScore(student.uniqueSkills);
+            const playScore = calculatePlayScore(student.playSkills);
+            const totalScore = basicScore + uniqueScore + playScore;
             const ranking = getCurrentRanking(student.id);
             
             const card = document.createElement('div');
@@ -845,6 +894,7 @@
             
             let skillsHTML = '';
             
+            // 기본 영법
             Object.entries(student.skills).forEach(([strokeKey, stroke]) => {
                 const average = calculateStrokeAverage(stroke);
                 skillsHTML += `
@@ -864,7 +914,7 @@
                     for (let point = 0; point <= 5; point++) {
                         skillsHTML += `
                             <button class="score-btn ${score === point ? 'active' : ''}" 
-                                    onclick="selectScore(${student.id}, '${strokeKey}', '${elementKey}', ${point}, this)">
+                                    onclick="selectScore(${student.id}, 'skills', '${strokeKey}', '${elementKey}', ${point}, this)">
                                 ${point}
                             </button>
                         `;
@@ -882,12 +932,85 @@
                 `;
             });
             
+            // 유니크 요소
+            skillsHTML += `
+                <div class="skill-group">
+                    <label class="skill-label">⭐ 유니크 요소 (선택 평가)</label>
+                    <div class="special-skills">
+            `;
+            
+            Object.entries(student.uniqueSkills).forEach(([elementKey, score]) => {
+                const elementName = uniqueElements[elementKey];
+                skillsHTML += `
+                    <div class="technical-skill">
+                        <label class="technical-label">${elementName}</label>
+                        <div class="score-selector">
+                `;
+                
+                for (let point = 0; point <= 5; point++) {
+                    skillsHTML += `
+                        <button class="score-btn ${score === point ? 'active' : ''}" 
+                                onclick="selectScore(${student.id}, 'uniqueSkills', '', '${elementKey}', ${point}, this)">
+                            ${point}
+                        </button>
+                    `;
+                }
+                
+                skillsHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            skillsHTML += `
+                    </div>
+                </div>
+            `;
+            
+            // 놀이 요소
+            skillsHTML += `
+                <div class="skill-group">
+                    <label class="skill-label">🎮 놀이 요소 (선택 평가)</label>
+                    <div class="play-skills">
+            `;
+            
+            Object.entries(student.playSkills).forEach(([elementKey, score]) => {
+                const elementName = playElements[elementKey];
+                skillsHTML += `
+                    <div class="technical-skill">
+                        <label class="technical-label">${elementName}</label>
+                        <div class="score-selector">
+                `;
+                
+                for (let point = 0; point <= 5; point++) {
+                    skillsHTML += `
+                        <button class="score-btn ${score === point ? 'active' : ''}" 
+                                onclick="selectScore(${student.id}, 'playSkills', '', '${elementKey}', ${point}, this)">
+                            ${point}
+                        </button>
+                    `;
+                }
+                
+                skillsHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            skillsHTML += `
+                    </div>
+                </div>
+            `;
+            
             card.innerHTML = `
                 <div class="student-name">
                     <div>
                         🏊‍♂️ ${student.name} (${student.grade})
                         <div style="font-size: 0.8rem; color: #666; margin-top: 0.2rem;">
-                            현재 순위: ${ranking}위 | 총점: ${totalScore}/100점
+                            순위: ${ranking}위 | 기본: ${basicScore}/80점 | 유니크: ${uniqueScore}/15점 | 놀이: ${playScore}/25점
+                        </div>
+                        <div style="font-size: 0.9rem; color: #333; font-weight: bold; margin-top: 0.2rem;">
+                            총점: ${totalScore}/120점
                         </div>
                     </div>
                     <span class="student-grade-badge" style="background: ${gradeInfo.color}">
@@ -920,12 +1043,19 @@
         }
         
         // 점수 선택
-        function selectScore(studentId, strokeKey, elementKey, score, element) {
+        function selectScore(studentId, category, strokeKey, elementKey, score, element) {
             const scoreSelector = element.parentElement;
             scoreSelector.querySelectorAll('.score-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
             
-            students[studentId].skills[strokeKey][elementKey] = score;
+            if (category === 'skills') {
+                students[studentId].skills[strokeKey][elementKey] = score;
+            } else if (category === 'uniqueSkills') {
+                students[studentId].uniqueSkills[elementKey] = score;
+            } else if (category === 'playSkills') {
+                students[studentId].playSkills[elementKey] = score;
+            }
+            
             updateStudentGrade(studentId);
         }
         
@@ -964,8 +1094,8 @@
             rankingList.innerHTML = '';
             
             const sortedStudents = Object.values(students).sort((a, b) => {
-                const scoreA = calculateTotalScore(a.skills);
-                const scoreB = calculateTotalScore(b.skills);
+                const scoreA = calculateOverallScore(a.skills, a.uniqueSkills, a.playSkills);
+                const scoreB = calculateOverallScore(b.skills, b.uniqueSkills, b.playSkills);
                 
                 if (scoreB !== scoreA) {
                     return scoreB - scoreA;
@@ -983,8 +1113,11 @@
         // 랭킹 아이템 생성
         function createRankingItem(student, position) {
             const gradeInfo = calculateGrade(student.skills);
-            const totalScore = calculateTotalScore(student.skills);
-            const maxScore = 100;
+            const basicScore = calculateTotalScore(student.skills);
+            const uniqueScore = calculateUniqueScore(student.uniqueSkills);
+            const playScore = calculatePlayScore(student.playSkills);
+            const totalScore = basicScore + uniqueScore + playScore;
+            const maxScore = 120;
             
             let positionClass = 'other';
             let positionIcon = position;
@@ -1016,6 +1149,9 @@
                         </div>
                         <div style="font-weight: 600; color: #666;">
                             총점: ${totalScore}/${maxScore}점 (${((totalScore/maxScore)*100).toFixed(1)}%)
+                        </div>
+                        <div style="font-size: 0.8rem; color: #888; margin-top: 0.3rem;">
+                            기본: ${basicScore}/80 | 유니크: ${uniqueScore}/15 | 놀이: ${playScore}/25
                         </div>
                         <div class="ranking-skills">
                             <span class="ranking-skill-avg">자유형: ${calculateStrokeAverage(student.skills.freestyle)}점</span>
@@ -1055,10 +1191,22 @@
                 name: name,
                 grade: grade || '미정',
                 skills: {
-                    freestyle: { streamline: 0, armStroke: 0, kick: 0, breathing: 0, turn: 0 },
-                    backstroke: { streamline: 0, armStroke: 0, kick: 0, bodyPosition: 0, turn: 0 },
-                    breaststroke: { streamline: 0, armStroke: 0, kick: 0, timing: 0, turn: 0 },
-                    butterfly: { streamline: 0, armStroke: 0, kick: 0, timing: 0, turn: 0 }
+                    freestyle: { streamline: 0, armStroke: 0, kick: 0, breathing: 0 },
+                    backstroke: { streamline: 0, armStroke: 0, kick: 0, bodyPosition: 0 },
+                    breaststroke: { streamline: 0, armStroke: 0, kick: 0, timing: 0 },
+                    butterfly: { streamline: 0, armStroke: 0, kick: 0, timing: 0 }
+                },
+                uniqueSkills: {
+                    start: 0,
+                    turn: 0,
+                    underwater: 0
+                },
+                playSkills: {
+                    rolling: 0,
+                    eyesOpen: 0,
+                    dolphinKick: 0,
+                    waterGun: 0,
+                    diving: 0
                 },
                 comment: ''
             };
