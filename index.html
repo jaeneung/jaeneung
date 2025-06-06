@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JaeNeungLEE - 개인 이력서</title>
+    <title>회원가입 및 로그인 시스템</title>
     <style>
-        /* 기본 스타일 설정 */
         * {
             margin: 0;
             padding: 0;
@@ -14,619 +13,343 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        /* 컨테이너 스타일 */
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* 헤더 섹션 */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 40px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .welcome-screen.active {
+            display: block;
+        }
+
+        .welcome-screen {
+            display: none;
+        }
+
+        h1 {
+            color: #333;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            font-size: 2rem;
         }
 
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        h2 {
             color: #555;
-        }
-
-        /* 메인 콘텐츠 영역 */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        /* 카드 스타일 */
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h2 {
-            color: #2c3e50;
             margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+            font-size: 1.5rem;
         }
 
-        /* 교육 섹션 */
-        .education-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
         }
 
-        .education-item h3 {
-            color: #2c3e50;
+        label {
+            display: block;
             margin-bottom: 5px;
-        }
-
-        .education-item .period {
-            color: #7f8c8d;
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .education-item .description {
             color: #555;
-            font-size: 0.95em;
+            font-weight: 500;
         }
 
-        /* 경험 섹션 */
-        .experience-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
             border-radius: 10px;
-            border-left: 4px solid #764ba2;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        .experience-item h3 {
-            color: #2c3e50;
-            margin-bottom: 5px;
+        input:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
-        .experience-item .company {
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .experience-item .period {
-            color: #7f8c8d;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-
-        /* 스킬 섹션 */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .skill-category {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-top: 4px solid #667eea;
-        }
-
-        .skill-category h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .skill-bar {
-            width: 60%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        /* 프로젝트 섹션 */
-        .project-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .project-item h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: #667eea;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-        }
-
-        /* 수상 섹션 */
-        .award-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #fff3cd;
-            border-radius: 10px;
-            border-left: 4px solid #f39c12;
-        }
-
-        .award-item h4 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .award-item .date {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-info {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 편집 버튼 스타일 */
-        .edit-btn {
-            background: #667eea;
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 0.8em;
+            transition: transform 0.2s ease;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .switch-btn {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
             margin-top: 10px;
-            transition: background 0.3s ease;
         }
 
-        .edit-btn:hover {
-            background: #5a6fd8;
+        .switch-btn:hover {
+            background: #667eea;
+            color: white;
         }
 
-        /* 푸터 */
-        .footer {
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 15px;
             text-align: center;
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9em;
+        }
+
+        .user-info p {
+            margin: 8px 0;
+            color: #666;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 헤더 섹션 - 기본 정보 -->
-        <div class="header">
-            <div class="profile-img">JN</div>
-            <h1 id="name">Jae-Neung LEE</h1>
-            <p id="title">Teacher / AI developer</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span>📧</span>
-                    <span id="email">ljn1321@daum.net</span>
+        <!-- 회원가입 폼 -->
+        <div id="signupForm" class="form-container active">
+            <h1>회원가입</h1>
+            <div id="signupMessage"></div>
+            <form onsubmit="signup(event)">
+                <div class="form-group">
+                    <label for="signupId">아이디</label>
+                    <input type="text" id="signupId" required minlength="4">
                 </div>
-                <div class="contact-item">
-                    <span>📱</span>
-                    <span id="phone">010-4061-5014</span>
+                <div class="form-group">
+                    <label for="signupPassword">비밀번호</label>
+                    <input type="password" id="signupPassword" required minlength="6">
                 </div>
-                <div class="contact-item">
-                    <span>📍</span>
-                    <span id="address">Shenzhen in china</span>
+                <div class="form-group">
+                    <label for="signupName">이름</label>
+                    <input type="text" id="signupName" required>
                 </div>
-                <div class="contact-item">
-                    <span>🔗</span>
-                    <span id="github">github.com/jaeneung</span>
+                <div class="form-group">
+                    <label for="signupEmail">이메일</label>
+                    <input type="email" id="signupEmail" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="signupPhone">전화번호</label>
+                    <input type="tel" id="signupPhone" required>
+                </div>
+                <button type="submit">회원가입</button>
+                <button type="button" class="switch-btn" onclick="showLogin()">로그인으로 이동</button>
+            </form>
         </div>
 
-        <div class="main-content">
-            <!-- 교육 섹션 -->
-            <div class="card">
-                <h2>🎓 Education</h2>
-                <div id="education-list">
-                    <div class="education-item">
-                        <h3>Chosun University</h3>
-                        <div class="period">2006.02 - 2019.02</div>
-                        <div class="description">
-                            • Doctor degree
-
-                        </div>
-                        <h3>Hwasun Highschool</h3>
-                        <div class="period">2003.03 - 2006.02</div>
-                        <div class="description">
-                        </div>
-
-                        
-                    </div>
+        <!-- 로그인 폼 -->
+        <div id="loginForm" class="form-container">
+            <h1>로그인</h1>
+            <div id="loginMessage"></div>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="loginId">아이디</label>
+                    <input type="text" id="loginId" required>
                 </div>
-                <button class="edit-btn" onclick="editSection('education')">edit</button>
-            </div>
-
-            <!-- 경험 섹션 -->
-            <div class="card">
-                <h2>💼 Experience</h2>
-                <div id="experience-list">
-                    <div class="experience-item">
-                        <h3>Work</h3>
-
-                        <div class="company">Korean International School in shenzhen</div>
-                        <div class="period">2023.1 - present</div>
-                        <div class="description">
-                            • Postdoc<br> 
-                        </div>
-
-                        <div class="company">SUSTECH in shenzhen</div>
-                        <div class="period">2020.11 - 2022.11</div>
-                        <div class="description">
-                            • Postdoc<br> 
-                        </div>
-
-                        <div class="company">Hongkong City University</div>
-                        <div class="period">2019.06 - 2020.08</div>
-                        <div class="description">
-                            • Postdoc<br> 
-                        </div>
-                        
-                        
-                    
+                <div class="form-group">
+                    <label for="loginPassword">비밀번호</label>
+                    <input type="password" id="loginPassword" required>
                 </div>
-                <button class="edit-btn" onclick="editSection('experience')">edit</button>
-            </div>
+                <button type="submit">로그인</button>
+                <button type="button" class="switch-btn" onclick="showSignup()">회원가입으로 이동</button>
+            </form>
+        </div>
 
-            <!-- 스킬 섹션 -->
-            <div class="card">
-                <h2>🛠️ skill</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Programing</h3>
-                        <div class="skill-item">
-                            <span>Python</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>JavaScript</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 60%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>HTML/CSS</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Language</h3>
-                        <div class="skill-item">
-                            <span>Korean</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>English</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Chinese</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" style="width: 65%"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <button class="edit-btn" onclick="editSection('skills')">Edit</button>
-            </div>
-
-            <!-- 프로젝트 섹션
-            <div class="card">
-                <h2>🚀 Project</h2>
-                <div id="project-list">
-                    <div class="project-item">
-                        <h3>학교 시간표 앱</h3>
-                        <div class="description">
-                            고등학교 시간표를 관리할 수 있는 웹 애플리케이션을 개발했습니다. 
-                            친구들과 시간표를 공유하고 일정을 관리할 수 있는 기능을 포함했습니다.
-                        </div>
-                        <div class="project-tags">
-                            <span class="tag">HTML</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">JavaScript</span>
-                        </div>
-                    </div>
-                    <div class="project-item">
-                        <h3>파이썬 계산기</h3>
-                        <div class="description">
-                            GUI를 사용한 계산기 프로그램을 Python으로 개발했습니다. 
-                            기본 연산뿐만 아니라 과학 계산 기능도 포함했습니다.
-                        </div>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Tkinter</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="edit-btn" onclick="editSection('projects')">편집</button>
-            </div> -->
-
-            <!-- 수상 및 자격증 섹션 -->
-            <!-- <div class="card">
-                <h2>🏆 수상 및 자격증</h2>
-                <div id="awards-list">
-                    <div class="award-item">
-                        <h4>정보처리기능사</h4>
-                        <div class="date">2024.05</div>
-                        <div class="description">한국산업인력공단</div>
-                    </div>
-                    <div class="award-item">
-                        <h4>교내 프로그래밍 대회 2위</h4>
-                        <div class="date">2023.11</div>
-                        <div class="description">○○고등학교</div>
-                    </div>
-                    <div class="award-item">
-                        <h4>영어 말하기 대회 우수상</h4>
-                        <div class="date">2023.09</div>
-                        <div class="description">○○고등학교</div>
-                    </div>
-                </div>
-                <button class="edit-btn" onclick="editSection('awards')">편집</button>
-            </div> -->
-
-            <!-- 자기소개 섹션 -->
-            <!-- <div class="card" style="grid-column: 1 / -1;">
-                <h2>👋 자기소개</h2>
-                <div id="introduction">
-                    <p style="margin-bottom: 15px;">
-                        안녕하세요! 저는 기술에 대한 열정을 가진 고등학생입니다. 
-                        어릴 때부터 컴퓨터와 프로그래밍에 관심이 많았고, 
-                        현재는 웹 개발과 소프트웨어 개발 분야를 집중적으로 공부하고 있습니다.
-                    </p>
-                    <p style="margin-bottom: 15px;">
-                        학교에서는 컴퓨터 동아리 활동을 통해 다양한 프로젝트를 진행하며 
-                        실무 경험을 쌓고 있습니다. 또한 온라인 강의와 개인 프로젝트를 통해 
-                        최신 기술 트렌드를 따라가려 노력하고 있습니다.
-                    </p>
-                    <p>
-                        미래에는 사용자에게 가치 있는 서비스를 제공하는 개발자가 되고 싶습니다. 
-                        지속적인 학습과 성장을 통해 더 나은 개발자로 발전해 나가겠습니다.
-                    </p>
-                </div>
-                <button class="edit-btn" onclick="editSection('introduction')">편집</button>
-            </div>
-        </div> -->
-
-        <div class="footer">
-            <p>© 2025 JaeNeungLEE. 이 이력서는 정기적으로 업데이트됩니다.</p>
+        <!-- 환영 화면 -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <h1>환영합니다!</h1>
+            <div id="userInfo" class="user-info"></div>
+            <button class="logout-btn" onclick="logout()">로그아웃</button>
         </div>
     </div>
 
     <script>
-        // 각 섹션 편집 기능
-        function editSection(section) {
-            // 실제 구현에서는 모달이나 별도 편집 페이지로 이동할 수 있습니다
-            alert(`${section} 섹션을 편집하겠습니다. 실제 구현에서는 편집 폼이 나타납니다.`);
+        // 메모리 데이터베이스 (사용자 정보 저장)
+        let userDatabase = {};
+
+        function showMessage(elementId, message, type) {
+            const messageElement = document.getElementById(elementId);
+            messageElement.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => {
+                messageElement.innerHTML = '';
+            }, 3000);
+        }
+
+        function signup(event) {
+            event.preventDefault();
             
-            // 예시: 간단한 프롬프트로 기본 정보 편집
-            if (section === 'basic') {
-                editBasicInfo();
+            const id = document.getElementById('signupId').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+
+            // 아이디 중복 확인
+            if (userDatabase[id]) {
+                showMessage('signupMessage', '이미 존재하는 아이디입니다.', 'error');
+                return;
             }
-        }
 
-        // 기본 정보 편집 예시
-        function editBasicInfo() {
-            const name = prompt('이름을 입력하세요:', document.getElementById('name').textContent);
-            const title = prompt('직책/상태를 입력하세요:', document.getElementById('title').textContent);
-            const email = prompt('이메일을 입력하세요:', document.getElementById('email').textContent);
-            const phone = prompt('전화번호를 입력하세요:', document.getElementById('phone').textContent);
-
-            if (name) document.getElementById('name').textContent = name;
-            if (title) document.getElementById('title').textContent = title;
-            if (email) document.getElementById('email').textContent = email;
-            if (phone) document.getElementById('phone').textContent = phone;
-
-            // 프로필 이미지 첫 글자도 업데이트
-            if (name) {
-                document.querySelector('.profile-img').textContent = name.charAt(0);
+            // 유효성 검사
+            if (id.length < 4) {
+                showMessage('signupMessage', '아이디는 4자 이상이어야 합니다.', 'error');
+                return;
             }
-        }
 
-        // 스킬 진행률 애니메이션
-        function animateSkills() {
-            const skillBars = document.querySelectorAll('.skill-progress');
-            skillBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0%';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 500);
-            });
-        }
+            if (password.length < 6) {
+                showMessage('signupMessage', '비밀번호는 6자 이상이어야 합니다.', 'error');
+                return;
+            }
 
-        // 페이지 로드 시 스킬 애니메이션 실행
-        window.addEventListener('load', () => {
-            setTimeout(animateSkills, 1000);
-        });
+            // 사용자 정보 저장
+            userDatabase[id] = {
+                id: id,
+                password: password,
+                name: name,
+                email: email,
+                phone: phone,
+                registeredAt: new Date().toLocaleString('ko-KR')
+            };
 
-        // 인쇄용 스타일 추가
-        function printResume() {
-            window.print();
-        }
-
-        // 스크롤 시 카드 애니메이션
-        function handleScroll() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }
-            });
-        }
-
-        // 초기 설정
-        document.addEventListener('DOMContentLoaded', function() {
-            // 카드 초기 상태 설정
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            });
-
-            // 스크롤 이벤트 리스너 추가
-            window.addEventListener('scroll', handleScroll);
+            showMessage('signupMessage', '회원가입이 완료되었습니다!', 'success');
             
-            // 초기 애니메이션 실행
-            setTimeout(handleScroll, 200);
-        });
+            // 폼 초기화
+            document.getElementById('signupId').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPhone').value = '';
 
-        // 섹션별 데이터 관리 객체 (실제 구현에서는 데이터베이스나 로컬 스토리지 사용)
-        const resumeData = {
-            basicInfo: {
-                name: 'JaeNeungLEE',
-                title: 'Teacher from KIS in Shenzhen / Teacher',
-                email: 'ljn1321@daum.net',
-                phone: '010-4061-5014',
-                address: '전남 화순군읍 용곡3길 53 대창펠리스 101호호',
-                github: 'github.com/minsu'
-            },
-            education: [
-                {
-                    school: '○○고등학교',
-                    period: '2022.03 - 2025.02 (예정)',
-                    description: '전체 성적: 상위 10%\n주요 과목: 수학, 과학, 정보\n특별활동: 컴퓨터 동아리 회장'
-                }
-            ],
-            experience: [
-                {
-                    title: '학생회 활동',
-                    company: '○○고등학교 학생회',
-                    period: '2023.03 - 2024.02',
-                    description: '학생회 임원으로 활동\n학교 축제 기획 및 운영\n학생 의견 수렴 및 전달'
-                }
-            ]
-            // 다른 섹션들도 필요에 따라 추가 가능
-        };
-
-        // 데이터 저장 및 불러오기 함수 (추후 확장 가능)
-        function saveData() {
-            // 실제 구현에서는 서버나 로컬 스토리지에 저장
-            console.log('데이터 저장됨:', resumeData);
+            // 2초 후 로그인 화면으로 이동
+            setTimeout(() => {
+                showLogin();
+            }, 2000);
         }
 
-        function loadData() {
-            // 실제 구현에서는 저장된 데이터를 불러와서 화면에 표시
-            console.log('데이터 불러옴:', resumeData);
+        function login(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('loginId').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            // 사용자 존재 확인
+            if (!userDatabase[id]) {
+                showMessage('loginMessage', '존재하지 않는 아이디입니다.', 'error');
+                return;
+            }
+
+            // 비밀번호 확인
+            if (userDatabase[id].password !== password) {
+                showMessage('loginMessage', '비밀번호가 올바르지 않습니다.', 'error');
+                return;
+            }
+
+            // 로그인 성공
+            showMessage('loginMessage', '로그인 성공!', 'success');
+            
+            setTimeout(() => {
+                showWelcome(userDatabase[id]);
+            }, 1000);
         }
+
+        function showWelcome(user) {
+            document.getElementById('signupForm').classList.remove('active');
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('welcomeScreen').classList.add('active');
+
+            document.getElementById('userInfo').innerHTML = `
+                <h3>사용자 정보</h3>
+                <p><strong>아이디:</strong> ${user.id}</p>
+                <p><strong>이름:</strong> ${user.name}</p>
+                <p><strong>이메일:</strong> ${user.email}</p>
+                <p><strong>전화번호:</strong> ${user.phone}</p>
+                <p><strong>가입일:</strong> ${user.registeredAt}</p>
+            `;
+        }
+
+        function logout() {
+            document.getElementById('welcomeScreen').classList.remove('active');
+            document.getElementById('loginForm').classList.add('active');
+            
+            // 로그인 폼 초기화
+            document.getElementById('loginId').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showLogin() {
+            document.getElementById('signupForm').classList.remove('active');
+            document.getElementById('loginForm').classList.add('active');
+        }
+
+        function showSignup() {
+            document.getElementById('loginForm').classList.remove('active');
+            document.getElementById('signupForm').classList.add('active');
+        }
+
+        // 페이지 로드 시 등록된 사용자 수 표시 (개발용)
+        console.log('사용자 데이터베이스:', userDatabase);
     </script>
 </body>
 </html>
