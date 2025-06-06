@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 및 로그인 시스템</title>
+    <title>회원가입/로그인 및 데이터베이스 관리 시스템</title>
     <style>
         * {
             margin: 0;
@@ -15,20 +15,30 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+            padding: 30px;
+        }
+
+        .form-section {
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .form-container {
@@ -39,29 +49,30 @@
             display: block;
         }
 
-        .welcome-screen.active {
-            display: block;
-        }
-
         .welcome-screen {
             display: none;
+        }
+
+        .welcome-screen.active {
+            display: block;
         }
 
         h1 {
             color: #333;
             margin-bottom: 30px;
             font-size: 2rem;
+            text-align: center;
         }
 
         h2 {
             color: #555;
             margin-bottom: 20px;
             font-size: 1.5rem;
+            text-align: center;
         }
 
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
         }
 
         label {
@@ -85,7 +96,7 @@
             border-color: #667eea;
         }
 
-        button {
+        .btn {
             width: 100%;
             padding: 12px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -99,31 +110,46 @@
             margin-bottom: 15px;
         }
 
-        button:hover {
+        .btn:hover {
             transform: translateY(-2px);
         }
 
-        button:active {
+        .btn:active {
             transform: translateY(0);
         }
 
-        .switch-btn {
+        .btn-secondary {
             background: transparent;
             color: #667eea;
             border: 2px solid #667eea;
-            margin-top: 10px;
         }
 
-        .switch-btn:hover {
+        .btn-secondary:hover {
             background: #667eea;
             color: white;
         }
 
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
         .message {
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
             font-weight: 500;
+            text-align: center;
         }
 
         .success {
@@ -143,7 +169,6 @@
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
-            text-align: left;
         }
 
         .user-info h3 {
@@ -157,102 +182,224 @@
             color: #666;
         }
 
-        .logout-btn {
-            background: #dc3545;
-            margin-top: 20px;
+        .database-section {
+            max-height: 700px;
+            overflow-y: auto;
         }
 
-        .logout-btn:hover {
-            background: #c82333;
+        .database-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-count {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .user-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .user-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-id {
+            font-weight: 600;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .user-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 회원가입 폼 -->
-        <div id="signupForm" class="form-container active">
-            <h1>회원가입</h1>
-            <div id="signupMessage"></div>
-            <form onsubmit="signup(event)">
+        <!-- 좌측: 회원가입/로그인 폼 -->
+        <div class="card form-section">
+            <!-- 회원가입 폼 -->
+            <div id="signupForm" class="form-container active">
+                <h1>회원가입</h1>
+                <div id="signupMessage"></div>
                 <div class="form-group">
                     <label for="signupId">아이디</label>
-                    <input type="text" id="signupId" required minlength="4">
+                    <input type="text" id="signupId" placeholder="4자 이상 입력">
                 </div>
                 <div class="form-group">
                     <label for="signupPassword">비밀번호</label>
-                    <input type="password" id="signupPassword" required minlength="6">
+                    <input type="password" id="signupPassword" placeholder="6자 이상 입력">
                 </div>
                 <div class="form-group">
                     <label for="signupName">이름</label>
-                    <input type="text" id="signupName" required>
+                    <input type="text" id="signupName" placeholder="실명 입력">
                 </div>
                 <div class="form-group">
                     <label for="signupEmail">이메일</label>
-                    <input type="email" id="signupEmail" required>
+                    <input type="email" id="signupEmail" placeholder="example@email.com">
                 </div>
                 <div class="form-group">
                     <label for="signupPhone">전화번호</label>
-                    <input type="tel" id="signupPhone" required>
+                    <input type="tel" id="signupPhone" placeholder="010-1234-5678">
                 </div>
-                <button type="submit">회원가입</button>
-                <button type="button" class="switch-btn" onclick="showLogin()">로그인으로 이동</button>
-            </form>
-        </div>
+                <button type="button" class="btn" onclick="handleSignup()">회원가입</button>
+                <button type="button" class="btn btn-secondary" onclick="showLogin()">로그인으로 이동</button>
+            </div>
 
-        <!-- 로그인 폼 -->
-        <div id="loginForm" class="form-container">
-            <h1>로그인</h1>
-            <div id="loginMessage"></div>
-            <form onsubmit="login(event)">
+            <!-- 로그인 폼 -->
+            <div id="loginForm" class="form-container">
+                <h1>로그인</h1>
+                <div id="loginMessage"></div>
                 <div class="form-group">
                     <label for="loginId">아이디</label>
-                    <input type="text" id="loginId" required>
+                    <input type="text" id="loginId" placeholder="아이디를 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">비밀번호</label>
-                    <input type="password" id="loginPassword" required>
+                    <input type="password" id="loginPassword" placeholder="비밀번호를 입력하세요">
                 </div>
-                <button type="submit">로그인</button>
-                <button type="button" class="switch-btn" onclick="showSignup()">회원가입으로 이동</button>
-            </form>
+                <button type="button" class="btn" onclick="handleLogin()">로그인</button>
+                <button type="button" class="btn btn-secondary" onclick="showSignup()">회원가입으로 이동</button>
+            </div>
+
+            <!-- 환영 화면 -->
+            <div id="welcomeScreen" class="welcome-screen">
+                <h1>환영합니다!</h1>
+                <div id="userInfo" class="user-info"></div>
+                <button type="button" class="btn btn-danger" onclick="handleLogout()">로그아웃</button>
+            </div>
         </div>
 
-        <!-- 환영 화면 -->
-        <div id="welcomeScreen" class="welcome-screen">
-            <h1>환영합니다!</h1>
-            <div id="userInfo" class="user-info"></div>
-            <button class="logout-btn" onclick="logout()">로그아웃</button>
+        <!-- 우측: 데이터베이스 관리 -->
+        <div class="card database-section">
+            <div class="database-header">
+                <h2>사용자 데이터베이스</h2>
+                <span class="user-count">총 <span id="userCount">0</span>명</span>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-label">전체 사용자</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="recentUsers">0</div>
+                    <div class="stat-label">오늘 가입</div>
+                </div>
+            </div>
+
+            <div class="actions" style="margin-bottom: 20px;">
+                <button type="button" class="btn btn-small" onclick="exportDatabase()">데이터 내보내기</button>
+                <button type="button" class="btn btn-small btn-danger" onclick="clearDatabase()">전체 삭제</button>
+                <button type="button" class="btn btn-small btn-secondary" onclick="refreshDatabase()">새로고침</button>
+            </div>
+
+            <div id="userList" class="user-list">
+                <div class="empty-state">
+                    등록된 사용자가 없습니다.
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 메모리 데이터베이스 (사용자 정보 저장)
+        // 메모리 데이터베이스
         let userDatabase = {};
+        let currentUser = null;
 
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshDatabase();
+        });
+
+        // 메시지 표시 함수
         function showMessage(elementId, message, type) {
             const messageElement = document.getElementById(elementId);
             messageElement.innerHTML = `<div class="message ${type}">${message}</div>`;
             setTimeout(() => {
                 messageElement.innerHTML = '';
-            }, 3000);
+            }, 4000);
         }
 
-        function signup(event) {
-            event.preventDefault();
-            
+        // 회원가입 처리
+        function handleSignup() {
             const id = document.getElementById('signupId').value.trim();
             const password = document.getElementById('signupPassword').value;
             const name = document.getElementById('signupName').value.trim();
             const email = document.getElementById('signupEmail').value.trim();
             const phone = document.getElementById('signupPhone').value.trim();
 
-            // 아이디 중복 확인
-            if (userDatabase[id]) {
-                showMessage('signupMessage', '이미 존재하는 아이디입니다.', 'error');
+            // 유효성 검사
+            if (!id || !password || !name || !email || !phone) {
+                showMessage('signupMessage', '모든 필드를 입력해주세요.', 'error');
                 return;
             }
 
-            // 유효성 검사
             if (id.length < 4) {
                 showMessage('signupMessage', '아이디는 4자 이상이어야 합니다.', 'error');
                 return;
@@ -263,6 +410,18 @@
                 return;
             }
 
+            if (userDatabase[id]) {
+                showMessage('signupMessage', '이미 존재하는 아이디입니다.', 'error');
+                return;
+            }
+
+            // 이메일 형식 확인
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('signupMessage', '올바른 이메일 형식을 입력해주세요.', 'error');
+                return;
+            }
+
             // 사용자 정보 저장
             userDatabase[id] = {
                 id: id,
@@ -270,17 +429,17 @@
                 name: name,
                 email: email,
                 phone: phone,
-                registeredAt: new Date().toLocaleString('ko-KR')
+                registeredAt: new Date().toLocaleString('ko-KR'),
+                lastLogin: null
             };
 
             showMessage('signupMessage', '회원가입이 완료되었습니다!', 'success');
             
             // 폼 초기화
-            document.getElementById('signupId').value = '';
-            document.getElementById('signupPassword').value = '';
-            document.getElementById('signupName').value = '';
-            document.getElementById('signupEmail').value = '';
-            document.getElementById('signupPhone').value = '';
+            clearSignupForm();
+            
+            // 데이터베이스 새로고침
+            refreshDatabase();
 
             // 2초 후 로그인 화면으로 이동
             setTimeout(() => {
@@ -288,68 +447,187 @@
             }, 2000);
         }
 
-        function login(event) {
-            event.preventDefault();
-            
+        // 로그인 처리
+        function handleLogin() {
             const id = document.getElementById('loginId').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // 사용자 존재 확인
+            if (!id || !password) {
+                showMessage('loginMessage', '아이디와 비밀번호를 입력해주세요.', 'error');
+                return;
+            }
+
             if (!userDatabase[id]) {
                 showMessage('loginMessage', '존재하지 않는 아이디입니다.', 'error');
                 return;
             }
 
-            // 비밀번호 확인
             if (userDatabase[id].password !== password) {
                 showMessage('loginMessage', '비밀번호가 올바르지 않습니다.', 'error');
                 return;
             }
 
             // 로그인 성공
+            currentUser = userDatabase[id];
+            userDatabase[id].lastLogin = new Date().toLocaleString('ko-KR');
+            
             showMessage('loginMessage', '로그인 성공!', 'success');
             
             setTimeout(() => {
-                showWelcome(userDatabase[id]);
+                showWelcome();
+                refreshDatabase();
             }, 1000);
         }
 
-        function showWelcome(user) {
-            document.getElementById('signupForm').classList.remove('active');
-            document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('welcomeScreen').classList.add('active');
-
-            document.getElementById('userInfo').innerHTML = `
-                <h3>사용자 정보</h3>
-                <p><strong>아이디:</strong> ${user.id}</p>
-                <p><strong>이름:</strong> ${user.name}</p>
-                <p><strong>이메일:</strong> ${user.email}</p>
-                <p><strong>전화번호:</strong> ${user.phone}</p>
-                <p><strong>가입일:</strong> ${user.registeredAt}</p>
-            `;
+        // 로그아웃 처리
+        function handleLogout() {
+            currentUser = null;
+            showLogin();
+            clearLoginForm();
         }
 
-        function logout() {
+        // 화면 전환 함수들
+        function showSignup() {
+            document.getElementById('signupForm').classList.add('active');
+            document.getElementById('loginForm').classList.remove('active');
             document.getElementById('welcomeScreen').classList.remove('active');
-            document.getElementById('loginForm').classList.add('active');
-            
-            // 로그인 폼 초기화
-            document.getElementById('loginId').value = '';
-            document.getElementById('loginPassword').value = '';
         }
 
         function showLogin() {
             document.getElementById('signupForm').classList.remove('active');
             document.getElementById('loginForm').classList.add('active');
+            document.getElementById('welcomeScreen').classList.remove('active');
         }
 
-        function showSignup() {
+        function showWelcome() {
+            document.getElementById('signupForm').classList.remove('active');
             document.getElementById('loginForm').classList.remove('active');
-            document.getElementById('signupForm').classList.add('active');
+            document.getElementById('welcomeScreen').classList.add('active');
+            
+            if (currentUser) {
+                document.getElementById('userInfo').innerHTML = `
+                    <h3>사용자 정보</h3>
+                    <p><strong>아이디:</strong> ${currentUser.id}</p>
+                    <p><strong>이름:</strong> ${currentUser.name}</p>
+                    <p><strong>이메일:</strong> ${currentUser.email}</p>
+                    <p><strong>전화번호:</strong> ${currentUser.phone}</p>
+                    <p><strong>가입일:</strong> ${currentUser.registeredAt}</p>
+                    <p><strong>마지막 로그인:</strong> ${currentUser.lastLogin || '최초 로그인'}</p>
+                `;
+            }
         }
 
-        // 페이지 로드 시 등록된 사용자 수 표시 (개발용)
-        console.log('사용자 데이터베이스:', userDatabase);
+        // 폼 초기화 함수들
+        function clearSignupForm() {
+            document.getElementById('signupId').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPhone').value = '';
+        }
+
+        function clearLoginForm() {
+            document.getElementById('loginId').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // 데이터베이스 관리 함수들
+        function refreshDatabase() {
+            const userList = document.getElementById('userList');
+            const userCount = Object.keys(userDatabase).length;
+            
+            document.getElementById('userCount').textContent = userCount;
+            document.getElementById('totalUsers').textContent = userCount;
+            
+            // 오늘 가입자 계산
+            const today = new Date().toDateString();
+            const todayUsers = Object.values(userDatabase).filter(user => 
+                new Date(user.registeredAt).toDateString() === today
+            ).length;
+            document.getElementById('recentUsers').textContent = todayUsers;
+
+            if (userCount === 0) {
+                userList.innerHTML = '<div class="empty-state">등록된 사용자가 없습니다.</div>';
+                return;
+            }
+
+            let html = '';
+            Object.values(userDatabase).forEach(user => {
+                html += `
+                    <div class="user-item">
+                        <div class="user-header">
+                            <span class="user-id">${user.id}</span>
+                            <span style="color: #666; font-size: 14px;">${user.name}</span>
+                        </div>
+                        <div class="user-details">
+                            <div>📧 ${user.email}</div>
+                            <div>📱 ${user.phone}</div>
+                            <div>📅 가입: ${user.registeredAt}</div>
+                            ${user.lastLogin ? `<div>🔑 마지막 로그인: ${user.lastLogin}</div>` : ''}
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-small btn-danger" onclick="deleteUser('${user.id}')">삭제</button>
+                            <button class="btn btn-small btn-secondary" onclick="viewUser('${user.id}')">상세보기</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            userList.innerHTML = html;
+        }
+
+        function deleteUser(userId) {
+            if (confirm(`사용자 '${userId}'를 정말 삭제하시겠습니까?`)) {
+                delete userDatabase[userId];
+                if (currentUser && currentUser.id === userId) {
+                    handleLogout();
+                }
+                refreshDatabase();
+            }
+        }
+
+        function viewUser(userId) {
+            const user = userDatabase[userId];
+            alert(`사용자 정보:
+아이디: ${user.id}
+이름: ${user.name}
+이메일: ${user.email}
+전화번호: ${user.phone}
+가입일: ${user.registeredAt}
+마지막 로그인: ${user.lastLogin || '없음'}`);
+        }
+
+        function clearDatabase() {
+            if (confirm('모든 사용자 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                userDatabase = {};
+                currentUser = null;
+                showLogin();
+                refreshDatabase();
+                alert('모든 데이터가 삭제되었습니다.');
+            }
+        }
+
+        function exportDatabase() {
+            const dataStr = JSON.stringify(userDatabase, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'user_database.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 엔터키 이벤트 처리
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('signupForm').classList.contains('active')) {
+                    handleSignup();
+                } else if (document.getElementById('loginForm').classList.contains('active')) {
+                    handleLogin();
+                }
+            }
+        });
     </script>
 </body>
 </html>
