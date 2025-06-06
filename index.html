@@ -156,7 +156,7 @@
         
         .student-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -188,7 +188,7 @@
         }
         
         .student-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #333;
             margin-bottom: 1rem;
@@ -228,37 +228,63 @@
             font-weight: 500;
         }
         
-        .level-selector {
-            display: flex;
-            gap: 0.5rem;
+        .technical-skills {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 1rem;
             margin-bottom: 0.5rem;
         }
         
-        .level-btn {
-            padding: 0.5rem 1rem;
+        .technical-skill {
+            margin-bottom: 0.8rem;
+        }
+        
+        .technical-skill:last-child {
+            margin-bottom: 0;
+        }
+        
+        .technical-label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .score-selector {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+        
+        .score-btn {
+            padding: 0.4rem 0.6rem;
             border: 2px solid #e1e8ff;
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
-            flex: 1;
+            font-weight: 600;
+            min-width: 35px;
             text-align: center;
         }
         
-        .level-btn:hover {
+        .score-btn:hover {
             border-color: #667eea;
+            transform: translateY(-1px);
         }
         
-        .level-btn.active {
+        .score-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-color: #667eea;
+            transform: scale(1.05);
         }
         
         .comment-area {
             width: 100%;
-            min-height: 80px;
+            min-height: 60px;
             padding: 0.75rem;
             border: 2px solid #e1e8ff;
             border-radius: 10px;
@@ -312,6 +338,142 @@
             box-shadow: 0 15px 30px rgba(255, 154, 158, 0.4);
         }
         
+        .ranking-section {
+            margin-bottom: 2rem;
+        }
+        
+        .ranking-title {
+            text-align: center;
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .ranking-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .ranking-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .ranking-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .ranking-btn.secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+        
+        .ranking-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .ranking-item {
+            background: white;
+            border: 2px solid #e1e8ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .ranking-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .ranking-position {
+            font-size: 2rem;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .ranking-position.first {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+        
+        .ranking-position.second {
+            background: linear-gradient(135deg, #C0C0C0, #A9A9A9);
+        }
+        
+        .ranking-position.third {
+            background: linear-gradient(135deg, #CD7F32, #B87333);
+        }
+        
+        .ranking-position.other {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        
+        .ranking-info {
+            flex: 1;
+        }
+        
+        .ranking-student-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ranking-details {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .ranking-grade-badge {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+        }
+        
+        .ranking-skills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .ranking-skill-avg {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            font-weight: 600;
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -321,7 +483,6 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
         }
         
         .modal-content {
@@ -340,7 +501,6 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            line-height: 1;
         }
         
         .close:hover {
@@ -383,6 +543,21 @@
             .student-list {
                 grid-template-columns: 1fr;
             }
+            
+            .student-name {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .ranking-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .ranking-item {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -390,7 +565,7 @@
     <div class="container">
         <div class="header">
             <h1>🏊‍♀️ 학생 평가 시스템</h1>
-            <p>수영 레벨 평가 및 관리</p>
+            <p>수영 기술 요소 평가 및 관리</p>
         </div>
         
         <div id="authSection">
@@ -431,12 +606,23 @@
             <div class="user-info">
                 <div>
                     <h3>👋 안녕하세요, <span id="userName"></span>님!</h3>
-                    <p>학생들의 수영 레벨을 평가해보세요</p>
+                    <p>학생들의 수영 기술을 평가해보세요</p>
                 </div>
                 <button onclick="handleLogout()" class="logout-btn">로그아웃</button>
             </div>
             
             <button onclick="showAddStudentModal()" class="add-student-btn">+ 새 학생 추가</button>
+            
+            <div class="ranking-section">
+                <h3 class="ranking-title">🏆 학생 랭킹</h3>
+                <div class="ranking-controls">
+                    <button onclick="showRanking()" class="ranking-btn">랭킹 보기</button>
+                    <button onclick="hideRanking()" class="ranking-btn secondary">목록 보기</button>
+                </div>
+                <div id="rankingList" class="ranking-list" style="display: none;">
+                    <!-- 랭킹이 여기에 표시됩니다 -->
+                </div>
+            </div>
             
             <div id="studentList" class="student-list">
                 <!-- 학생 카드들이 여기에 동적으로 추가됩니다 -->
@@ -480,38 +666,53 @@
                 id: 1,
                 name: '김민수',
                 grade: '3학년',
-                levels: {
-                    freestyle: '중급',
-                    backstroke: '초급',
-                    breaststroke: '중급',
-                    butterfly: '초급'
+                skills: {
+                    freestyle: { streamline: 3, armStroke: 4, kick: 3, breathing: 2, turn: 3 },
+                    backstroke: { streamline: 2, armStroke: 3, kick: 2, bodyPosition: 2, turn: 2 },
+                    breaststroke: { streamline: 3, armStroke: 3, kick: 4, timing: 3, turn: 2 },
+                    butterfly: { streamline: 2, armStroke: 2, kick: 1, timing: 2, turn: 1 }
                 },
-                comment: '자유형 실력이 많이 늘었습니다. 배영 연습이 더 필요해요.'
+                comment: '자유형 팔젓기가 우수합니다. 호흡 연습이 더 필요해요.'
             },
             2: {
                 id: 2,
                 name: '이지은',
                 grade: '4학년',
-                levels: {
-                    freestyle: '고급',
-                    backstroke: '중급',
-                    breaststroke: '고급',
-                    butterfly: '중급'
+                skills: {
+                    freestyle: { streamline: 4, armStroke: 5, kick: 4, breathing: 4, turn: 4 },
+                    backstroke: { streamline: 4, armStroke: 4, kick: 3, bodyPosition: 4, turn: 3 },
+                    breaststroke: { streamline: 4, armStroke: 4, kick: 5, timing: 4, turn: 4 },
+                    butterfly: { streamline: 3, armStroke: 3, kick: 3, timing: 3, turn: 2 }
                 },
-                comment: '전반적으로 우수한 실력을 보여줍니다. 접영 자세 교정이 필요합니다.'
+                comment: '전반적으로 우수한 실력을 보여줍니다.'
             },
             3: {
                 id: 3,
                 name: '박준호',
                 grade: '2학년',
-                levels: {
-                    freestyle: '초급',
-                    backstroke: '초급',
-                    breaststroke: '초급',
-                    butterfly: '입문'
+                skills: {
+                    freestyle: { streamline: 2, armStroke: 2, kick: 1, breathing: 1, turn: 1 },
+                    backstroke: { streamline: 1, armStroke: 2, kick: 1, bodyPosition: 1, turn: 1 },
+                    breaststroke: { streamline: 2, armStroke: 1, kick: 2, timing: 1, turn: 1 },
+                    butterfly: { streamline: 1, armStroke: 0, kick: 0, timing: 0, turn: 0 }
                 },
-                comment: '수영을 시작한 지 얼마 안 된 학생입니다. 기본기 연습에 집중하고 있어요.'
+                comment: '기본기 연습에 집중하고 있어요.'
             }
+        };
+        
+        // 기술 요소 정의
+        const skillElements = {
+            freestyle: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', breathing: '호흡', turn: '턴' },
+            backstroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', bodyPosition: '몸자세', turn: '턴' },
+            breaststroke: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍', turn: '턴' },
+            butterfly: { streamline: '스트림라인', armStroke: '팔젓기', kick: '킥', timing: '타이밍', turn: '턴' }
+        };
+        
+        const strokeNames = {
+            freestyle: '🏊‍♀️ 자유형',
+            backstroke: '🏊‍♂️ 배영',
+            breaststroke: '🐸 평영',
+            butterfly: '🦋 접영'
         };
         
         // 알림 표시
@@ -523,6 +724,49 @@
             setTimeout(() => {
                 alertEl.style.display = 'none';
             }, 3000);
+        }
+        
+        // 총점 계산
+        function calculateTotalScore(skills) {
+            let total = 0;
+            Object.values(skills).forEach(stroke => {
+                Object.values(stroke).forEach(score => {
+                    total += score;
+                });
+            });
+            return total;
+        }
+        
+        // 영법별 평균 계산
+        function calculateStrokeAverage(stroke) {
+            const scores = Object.values(stroke);
+            const sum = scores.reduce((a, b) => a + b, 0);
+            return (sum / scores.length).toFixed(1);
+        }
+        
+        // 등급 계산
+        function calculateGrade(skills) {
+            const totalScore = calculateTotalScore(skills);
+            const percentage = (totalScore / 100) * 100;
+            
+            if (percentage >= 90) return { grade: '포세이돈', emoji: '🔱', color: '#FFD700' };
+            if (percentage >= 80) return { grade: '씹붕어', emoji: '🐟', color: '#FF6B6B' };
+            if (percentage >= 60) return { grade: '올챙이', emoji: '🐸', color: '#4ECDC4' };
+            if (percentage >= 40) return { grade: '물방개', emoji: '🪲', color: '#95A5A6' };
+            if (percentage >= 25) return { grade: '상급자', emoji: '🏊‍♀️', color: '#9B59B6' };
+            if (percentage >= 15) return { grade: '중급자', emoji: '🏊‍♂️', color: '#3498DB' };
+            if (percentage >= 5) return { grade: '초보자', emoji: '🤿', color: '#F39C12' };
+            return { grade: '새내기', emoji: '🏊', color: '#BDC3C7' };
+        }
+        
+        // 현재 순위 계산
+        function getCurrentRanking(studentId) {
+            const sortedStudents = Object.values(students).sort((a, b) => {
+                const scoreA = calculateTotalScore(a.skills);
+                const scoreB = calculateTotalScore(b.skills);
+                return scoreB - scoreA;
+            });
+            return sortedStudents.findIndex(student => student.id == studentId) + 1;
         }
         
         // 로그인 처리
@@ -563,7 +807,6 @@
             users[email] = { name, email, password };
             showAlert('회원가입이 완료되었습니다! 로그인해주세요.');
             
-            // 폼 초기화
             document.getElementById('signupName').value = '';
             document.getElementById('signupEmail').value = '';
             document.getElementById('signupPassword').value = '';
@@ -591,103 +834,68 @@
             document.getElementById('loginPassword').value = '';
         }
         
-        // 학생 카드 렌더링
-        function renderStudents() {
-            const studentList = document.getElementById('studentList');
-            studentList.innerHTML = '';
-            
-            Object.values(students).forEach(student => {
-                const studentCard = createStudentCard(student);
-                studentList.appendChild(studentCard);
-            });
-        }
-        
-        // 등급 계산 함수
-        function calculateGrade(levels) {
-            const levelCount = {
-                '입문': 0,
-                '초급': 0,
-                '중급': 0,
-                '고급': 0
-            };
-            
-            // 각 레벨별 개수 계산
-            Object.values(levels).forEach(level => {
-                levelCount[level]++;
-            });
-            
-            // 등급 결정 로직
-            if (levelCount['고급'] === 4) {
-                return { grade: '포세이돈', emoji: '🔱', color: '#FFD700' }; // 금색
-            } else if (levelCount['중급'] === 4) {
-                return { grade: '씹붕어', emoji: '🐟', color: '#FF6B6B' }; // 빨간색
-            } else if (levelCount['초급'] === 4) {
-                return { grade: '올챙이', emoji: '🐸', color: '#4ECDC4' }; // 청록색
-            } else if (levelCount['입문'] === 4) {
-                return { grade: '물방개', emoji: '🪲', color: '#95A5A6' }; // 회색
-            } else if (levelCount['고급'] >= 2) {
-                return { grade: '상급자', emoji: '🏊‍♀️', color: '#9B59B6' }; // 보라색
-            } else if (levelCount['중급'] >= 2) {
-                return { grade: '중급자', emoji: '🏊‍♂️', color: '#3498DB' }; // 파란색
-            } else if (levelCount['초급'] >= 2) {
-                return { grade: '초보자', emoji: '🤿', color: '#F39C12' }; // 주황색
-            } else {
-                return { grade: '새내기', emoji: '🏊', color: '#BDC3C7' }; // 연회색
-            }
-        }
-
         // 학생 카드 생성
         function createStudentCard(student) {
-            const gradeInfo = calculateGrade(student.levels);
+            const gradeInfo = calculateGrade(student.skills);
+            const totalScore = calculateTotalScore(student.skills);
+            const ranking = getCurrentRanking(student.id);
+            
             const card = document.createElement('div');
             card.className = 'student-card';
+            
+            let skillsHTML = '';
+            
+            Object.entries(student.skills).forEach(([strokeKey, stroke]) => {
+                const average = calculateStrokeAverage(stroke);
+                skillsHTML += `
+                    <div class="skill-group">
+                        <label class="skill-label">${strokeNames[strokeKey]} (평균: ${average}점)</label>
+                        <div class="technical-skills">
+                `;
+                
+                Object.entries(stroke).forEach(([elementKey, score]) => {
+                    const elementName = skillElements[strokeKey][elementKey];
+                    skillsHTML += `
+                        <div class="technical-skill">
+                            <label class="technical-label">${elementName}</label>
+                            <div class="score-selector">
+                    `;
+                    
+                    for (let point = 0; point <= 5; point++) {
+                        skillsHTML += `
+                            <button class="score-btn ${score === point ? 'active' : ''}" 
+                                    onclick="selectScore(${student.id}, '${strokeKey}', '${elementKey}', ${point}, this)">
+                                ${point}
+                            </button>
+                        `;
+                    }
+                    
+                    skillsHTML += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                skillsHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
             card.innerHTML = `
                 <div class="student-name">
-                    🏊‍♂️ ${student.name} (${student.grade})
+                    <div>
+                        🏊‍♂️ ${student.name} (${student.grade})
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 0.2rem;">
+                            현재 순위: ${ranking}위 | 총점: ${totalScore}/100점
+                        </div>
+                    </div>
                     <span class="student-grade-badge" style="background: ${gradeInfo.color}">
                         ${gradeInfo.emoji} ${gradeInfo.grade}
                     </span>
                 </div>
                 
-                <div class="skill-group">
-                    <label class="skill-label">🏊‍♀️ 자유형 레벨</label>
-                    <div class="level-selector">
-                        <div class="level-btn ${student.levels.freestyle === '입문' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'freestyle', '입문', this)">입문</div>
-                        <div class="level-btn ${student.levels.freestyle === '초급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'freestyle', '초급', this)">초급</div>
-                        <div class="level-btn ${student.levels.freestyle === '중급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'freestyle', '중급', this)">중급</div>
-                        <div class="level-btn ${student.levels.freestyle === '고급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'freestyle', '고급', this)">고급</div>
-                    </div>
-                </div>
-                
-                <div class="skill-group">
-                    <label class="skill-label">🏊‍♂️ 배영 레벨</label>
-                    <div class="level-selector">
-                        <div class="level-btn ${student.levels.backstroke === '입문' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'backstroke', '입문', this)">입문</div>
-                        <div class="level-btn ${student.levels.backstroke === '초급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'backstroke', '초급', this)">초급</div>
-                        <div class="level-btn ${student.levels.backstroke === '중급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'backstroke', '중급', this)">중급</div>
-                        <div class="level-btn ${student.levels.backstroke === '고급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'backstroke', '고급', this)">고급</div>
-                    </div>
-                </div>
-                
-                <div class="skill-group">
-                    <label class="skill-label">🐸 평영 레벨</label>
-                    <div class="level-selector">
-                        <div class="level-btn ${student.levels.breaststroke === '입문' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'breaststroke', '입문', this)">입문</div>
-                        <div class="level-btn ${student.levels.breaststroke === '초급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'breaststroke', '초급', this)">초급</div>
-                        <div class="level-btn ${student.levels.breaststroke === '중급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'breaststroke', '중급', this)">중급</div>
-                        <div class="level-btn ${student.levels.breaststroke === '고급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'breaststroke', '고급', this)">고급</div>
-                    </div>
-                </div>
-                
-                <div class="skill-group">
-                    <label class="skill-label">🦋 접영 레벨</label>
-                    <div class="level-selector">
-                        <div class="level-btn ${student.levels.butterfly === '입문' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'butterfly', '입문', this)">입문</div>
-                        <div class="level-btn ${student.levels.butterfly === '초급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'butterfly', '초급', this)">초급</div>
-                        <div class="level-btn ${student.levels.butterfly === '중급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'butterfly', '중급', this)">중급</div>
-                        <div class="level-btn ${student.levels.butterfly === '고급' ? 'active' : ''}" onclick="selectLevel(${student.id}, 'butterfly', '고급', this)">고급</div>
-                    </div>
-                </div>
+                ${skillsHTML}
                 
                 <div class="skill-group">
                     <label class="skill-label">💬 코멘트</label>
@@ -700,45 +908,34 @@
             return card;
         }
         
-        // 레벨 선택
-        function selectLevel(studentId, skill, level, element) {
-            // 같은 그룹의 다른 버튼들 비활성화
-            const levelSelector = element.parentElement;
-            levelSelector.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+        // 학생 카드 렌더링
+        function renderStudents() {
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = '';
             
-            // 클릭된 버튼 활성화
+            Object.values(students).forEach(student => {
+                const studentCard = createStudentCard(student);
+                studentList.appendChild(studentCard);
+            });
+        }
+        
+        // 점수 선택
+        function selectScore(studentId, strokeKey, elementKey, score, element) {
+            const scoreSelector = element.parentElement;
+            scoreSelector.querySelectorAll('.score-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
             
-            // 데이터 업데이트
-            students[studentId].levels[skill] = level;
-            
-            // 등급 실시간 업데이트
+            students[studentId].skills[strokeKey][elementKey] = score;
             updateStudentGrade(studentId);
         }
         
         // 학생 등급 실시간 업데이트
         function updateStudentGrade(studentId) {
-            const student = students[studentId];
-            const gradeInfo = calculateGrade(student.levels);
+            renderStudents();
             
-            // 해당 학생 카드의 등급 배지 찾아서 업데이트
-            const studentCards = document.querySelectorAll('.student-card');
-            studentCards.forEach(card => {
-                const saveBtn = card.querySelector('.save-btn');
-                if (saveBtn && saveBtn.onclick.toString().includes(studentId)) {
-                    const gradeBadge = card.querySelector('.student-grade-badge');
-                    if (gradeBadge) {
-                        gradeBadge.innerHTML = `${gradeInfo.emoji} ${gradeInfo.grade}`;
-                        gradeBadge.style.background = gradeInfo.color;
-                        
-                        // 등급 변경 애니메이션
-                        gradeBadge.style.transform = 'scale(1.2)';
-                        setTimeout(() => {
-                            gradeBadge.style.transform = 'scale(1)';
-                        }, 200);
-                    }
-                }
-            });
+            if (document.getElementById('rankingList').style.display !== 'none') {
+                renderRanking();
+            }
         }
         
         // 평가 저장
@@ -746,6 +943,91 @@
             const commentArea = document.getElementById(`comment-${studentId}`);
             students[studentId].comment = commentArea.value;
             showAlert(`${students[studentId].name} 학생의 평가가 저장되었습니다!`);
+        }
+        
+        // 랭킹 표시
+        function showRanking() {
+            document.getElementById('studentList').style.display = 'none';
+            document.getElementById('rankingList').style.display = 'block';
+            renderRanking();
+        }
+        
+        // 목록 표시
+        function hideRanking() {
+            document.getElementById('studentList').style.display = 'grid';
+            document.getElementById('rankingList').style.display = 'none';
+        }
+        
+        // 랭킹 렌더링
+        function renderRanking() {
+            const rankingList = document.getElementById('rankingList');
+            rankingList.innerHTML = '';
+            
+            const sortedStudents = Object.values(students).sort((a, b) => {
+                const scoreA = calculateTotalScore(a.skills);
+                const scoreB = calculateTotalScore(b.skills);
+                
+                if (scoreB !== scoreA) {
+                    return scoreB - scoreA;
+                }
+                
+                return a.name.localeCompare(b.name);
+            });
+            
+            sortedStudents.forEach((student, index) => {
+                const rankingItem = createRankingItem(student, index + 1);
+                rankingList.appendChild(rankingItem);
+            });
+        }
+        
+        // 랭킹 아이템 생성
+        function createRankingItem(student, position) {
+            const gradeInfo = calculateGrade(student.skills);
+            const totalScore = calculateTotalScore(student.skills);
+            const maxScore = 100;
+            
+            let positionClass = 'other';
+            let positionIcon = position;
+            
+            if (position === 1) {
+                positionClass = 'first';
+                positionIcon = '🥇';
+            } else if (position === 2) {
+                positionClass = 'second';
+                positionIcon = '🥈';
+            } else if (position === 3) {
+                positionClass = 'third';
+                positionIcon = '🥉';
+            }
+            
+            const item = document.createElement('div');
+            item.className = 'ranking-item';
+            item.innerHTML = `
+                <div class="ranking-position ${positionClass}">
+                    ${positionIcon}
+                </div>
+                <div class="ranking-info">
+                    <div class="ranking-student-name">
+                        ${student.name} (${student.grade})
+                    </div>
+                    <div class="ranking-details">
+                        <div class="ranking-grade-badge" style="background: ${gradeInfo.color}">
+                            ${gradeInfo.emoji} ${gradeInfo.grade}
+                        </div>
+                        <div style="font-weight: 600; color: #666;">
+                            총점: ${totalScore}/${maxScore}점 (${((totalScore/maxScore)*100).toFixed(1)}%)
+                        </div>
+                        <div class="ranking-skills">
+                            <span class="ranking-skill-avg">자유형: ${calculateStrokeAverage(student.skills.freestyle)}점</span>
+                            <span class="ranking-skill-avg">배영: ${calculateStrokeAverage(student.skills.backstroke)}점</span>
+                            <span class="ranking-skill-avg">평영: ${calculateStrokeAverage(student.skills.breaststroke)}점</span>
+                            <span class="ranking-skill-avg">접영: ${calculateStrokeAverage(student.skills.butterfly)}점</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return item;
         }
         
         // 모달 관련
@@ -772,11 +1054,11 @@
                 id: newId,
                 name: name,
                 grade: grade || '미정',
-                levels: {
-                    freestyle: '입문',
-                    backstroke: '입문',
-                    breaststroke: '입문',
-                    butterfly: '입문'
+                skills: {
+                    freestyle: { streamline: 0, armStroke: 0, kick: 0, breathing: 0, turn: 0 },
+                    backstroke: { streamline: 0, armStroke: 0, kick: 0, bodyPosition: 0, turn: 0 },
+                    breaststroke: { streamline: 0, armStroke: 0, kick: 0, timing: 0, turn: 0 },
+                    butterfly: { streamline: 0, armStroke: 0, kick: 0, timing: 0, turn: 0 }
                 },
                 comment: ''
             };
@@ -784,7 +1066,6 @@
             renderStudents();
             closeModal();
             
-            // 폼 초기화
             document.getElementById('studentName').value = '';
             document.getElementById('studentGrade').value = '';
             
@@ -803,7 +1084,6 @@
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 if (document.getElementById('authSection').style.display !== 'none') {
-                    // 로그인 화면에서 Enter
                     if (document.getElementById('loginEmail') === document.activeElement || 
                         document.getElementById('loginPassword') === document.activeElement) {
                         handleLogin();
