@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro:bit with Python — Lesson 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Fira+Code:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1e2530;
+    --border: #30363d;
+    --accent: #f0c040;
+    --accent2: #4ec9b0;
+    --accent3: #c792ea;
+    --accent4: #ff7b72;
+    --accent5: #79c0ff;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --code-bg: #0d1117;
+    --green: #56d364;
+    --orange: #ffa657;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #1a2332 0%, #0d1117 60%);
+    border-bottom: 2px solid var(--accent);
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(240,192,64,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header .unit-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #fff;
+  }
+  header h1 span { color: var(--accent); }
+  header p.subtitle {
+    color: var(--muted);
+    font-size: .95rem;
+    margin-top: 6px;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 16px 40px 0;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 8px 18px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab-content { display: none; padding: 36px 40px 60px; max-width: 960px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  /* ── SECTION HEADINGS ── */
+  h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent2);
+    margin: 36px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2:first-child { margin-top: 0; }
+  h2 .pg { font-size: .75rem; font-family: 'DM Sans', sans-serif; font-weight: 600; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; }
+
+  h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 24px 0 10px;
+  }
+
+  p { color: var(--text); font-size: .95rem; margin-bottom: 10px; }
+  strong { color: var(--accent); font-weight: 700; }
+
+  /* ── VISUAL CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 16px;
+    position: relative;
+  }
+  .card .card-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .card .card-title { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: .95rem; color: var(--accent2); margin-bottom: 4px; }
+  .card p { font-size: .85rem; color: var(--muted); margin: 0; }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent3);
+    border-radius: 8px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 14px 0;
+  }
+  code {
+    font-family: 'Fira Code', monospace;
+    font-size: .88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .kw { color: var(--accent3); }
+  .fn { color: var(--accent5); }
+  .str { color: var(--green); }
+  .num { color: var(--orange); }
+  .cm { color: var(--muted); font-style: italic; }
+  .ln { color: var(--muted); user-select: none; display: inline-block; width: 24px; margin-right: 12px; text-align: right; }
+
+  /* ── DIAGRAM BOXES ── */
+  .diagram {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    margin: 18px 0;
+    text-align: center;
+  }
+  .diagram svg { max-width: 100%; }
+
+  /* ── INFO BOXES ── */
+  .info-box {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: .9rem;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .info-box.yellow { background: rgba(240,192,64,.1); border-left: 4px solid var(--accent); }
+  .info-box.blue   { background: rgba(121,192,255,.1); border-left: 4px solid var(--accent5); }
+  .info-box.green  { background: rgba(86,211,100,.1);  border-left: 4px solid var(--green); }
+  .info-box.pink   { background: rgba(199,120,221,.1); border-left: 4px solid var(--accent3); }
+  .info-box .icon  { font-size: 1.2rem; margin-top: 1px; flex-shrink: 0; }
+
+  /* ── STEPS ── */
+  .steps { margin: 14px 0; }
+  .step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .step .num-circle {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 50%;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: .85rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step p { margin: 0; font-size: .9rem; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th { background: var(--surface2); color: var(--accent); font-family: 'Baloo 2', sans-serif; font-weight: 700; padding: 10px 14px; text-align: left; border: 1px solid var(--border); }
+  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+  td code { background: var(--code-bg); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: .82rem; }
+
+  /* ── MICROBIT SVG ── */
+  .microbit-container { display: flex; justify-content: center; margin: 20px 0; }
+
+  /* ── QUIZ ── */
+  #quiz { }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+  }
+  .quiz-header .score-area { font-family: 'Baloo 2', sans-serif; font-size: 1rem; color: var(--accent); }
+  #timer-display {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.2rem;
+    color: var(--accent4);
+    font-weight: 600;
+  }
+  #timer-display.danger { color: #ff4444; animation: blink .5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .q-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+  }
+  .q-block .q-num {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: .8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+  .q-block .q-text { font-size: .95rem; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .q-block .q-text pre { margin: 8px 0; }
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    font-size: .9rem;
+  }
+  .option-label:hover { border-color: var(--accent5); background: rgba(121,192,255,.06); }
+  .option-label input[type=radio] { accent-color: var(--accent); cursor: pointer; }
+  .option-label.correct { border-color: var(--green) !important; background: rgba(86,211,100,.1); color: var(--green); }
+  .option-label.wrong   { border-color: var(--accent4) !important; background: rgba(255,123,114,.1); color: var(--accent4); }
+
+  .short-answer-input {
+    width: 100%;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'Fira Code', monospace;
+    font-size: .88rem;
+    padding: 10px 14px;
+    resize: vertical;
+    min-height: 80px;
+  }
+  .short-answer-input:focus { outline: none; border-color: var(--accent5); }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: .03em;
+    margin-top: 24px;
+    transition: opacity .2s, transform .1s;
+  }
+  .submit-btn:hover { opacity: .9; transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  #quiz-result {
+    display: none;
+    text-align: center;
+    padding: 32px;
+    background: var(--surface2);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    margin-top: 24px;
+  }
+  #quiz-result .big-score {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  #quiz-result p { color: var(--muted); margin-top: 8px; font-size: .95rem; }
+
+  /* ── CODING PROBLEMS ── */
+  .prob-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .prob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .level-badge {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: .78rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .lv1 { background: rgba(86,211,100,.2); color: var(--green); }
+  .lv2 { background: rgba(78,201,176,.2); color: var(--accent2); }
+  .lv3 { background: rgba(121,192,255,.2); color: var(--accent5); }
+  .lv4 { background: rgba(199,120,221,.2); color: var(--accent3); }
+  .lv5 { background: rgba(255,123,114,.2); color: var(--accent4); }
+  .prob-title { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
+
+  .prob-body { padding: 18px 20px; }
+  .io-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .io-box { background: var(--code-bg); border: 1px solid var(--border); border-radius: 7px; padding: 12px 14px; }
+  .io-box .label { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .io-box code { font-size: .85rem; color: var(--accent2); }
+
+  .hint-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: .82rem;
+    font-family: 'DM Sans', sans-serif;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: color .15s, border-color .15s;
+  }
+  .hint-toggle:hover { color: var(--accent5); border-color: var(--accent5); }
+  .hint-text { display: none; margin-top: 8px; font-size: .85rem; color: var(--accent5); background: rgba(121,192,255,.06); border-radius: 6px; padding: 8px 12px; }
+
+  .answer-section { margin-top: 14px; }
+  .answer-pw-form { display: flex; gap: 8px; }
+  .pw-input {
+    flex: 1;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'Fira Code', monospace;
+    font-size: .85rem;
+    padding: 7px 12px;
+  }
+  .pw-input:focus { outline: none; border-color: var(--accent); }
+  .pw-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: .82rem;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .pw-btn:hover { background: rgba(240,192,64,.12); }
+  .answer-code { display: none; }
+  .pw-error { color: var(--accent4); font-size: .8rem; margin-top: 4px; display: none; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="unit-badge">Unit 3 · Lesson 1</div>
+  <h1>Micro:bit with <span>Python</span></h1>
+  <p class="subtitle">Advanced Projects with micro:bit &nbsp;|&nbsp; Pages 122–135</p>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('guide',this)">📖 Visual Guide</button>
+  <button class="tab-btn" onclick="showTab('quiz',this)">✅ Quiz</button>
+  <button class="tab-btn" onclick="showTab('coding',this)">💻 Coding Problems</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 1 · VISUAL GUIDE
+═══════════════════════════════════════════════ -->
+<div id="guide" class="tab-content active">
+
+  <!-- WHAT IS MICRO:BIT -->
+  <h2>What is micro:bit? <span class="pg">p. 122–123</span></h2>
+
+  <div class="microbit-container">
+    <svg viewBox="0 0 340 200" width="340" xmlns="http://www.w3.org/2000/svg">
+      <!-- body -->
+      <rect x="30" y="20" width="280" height="150" rx="22" fill="#1e2530" stroke="#4ec9b0" stroke-width="2"/>
+      <!-- LED grid -->
+      <g fill="#ff6080">
+        <rect x="100" y="45" width="8" height="8" rx="2"/>
+        <rect x="115" y="45" width="8" height="8" rx="2"/>
+        <rect x="130" y="45" width="8" height="8" rx="2"/>
+        <rect x="145" y="45" width="8" height="8" rx="2"/>
+        <rect x="160" y="45" width="8" height="8" rx="2"/>
+        <rect x="100" y="60" width="8" height="8" rx="2"/>
+        <rect x="130" y="60" width="8" height="8" rx="2"/>
+        <rect x="160" y="60" width="8" height="8" rx="2"/>
+        <rect x="100" y="75" width="8" height="8" rx="2"/>
+        <rect x="115" y="75" width="8" height="8" rx="2"/>
+        <rect x="130" y="75" width="8" height="8" rx="2"/>
+        <rect x="145" y="75" width="8" height="8" rx="2"/>
+        <rect x="160" y="75" width="8" height="8" rx="2"/>
+        <rect x="100" y="90" width="8" height="8" rx="2"/>
+        <rect x="160" y="90" width="8" height="8" rx="2"/>
+        <rect x="100" y="105" width="8" height="8" rx="2"/>
+        <rect x="115" y="105" width="8" height="8" rx="2"/>
+        <rect x="130" y="105" width="8" height="8" rx="2"/>
+        <rect x="145" y="105" width="8" height="8" rx="2"/>
+        <rect x="160" y="105" width="8" height="8" rx="2"/>
+      </g>
+      <!-- button A -->
+      <rect x="48" y="75" width="30" height="30" rx="6" fill="#2e3b4e" stroke="#79c0ff" stroke-width="1.5"/>
+      <text x="63" y="95" fill="#79c0ff" font-size="11" font-family="sans-serif" text-anchor="middle">A</text>
+      <!-- button B -->
+      <rect x="262" y="75" width="30" height="30" rx="6" fill="#2e3b4e" stroke="#79c0ff" stroke-width="1.5"/>
+      <text x="277" y="95" fill="#79c0ff" font-size="11" font-family="sans-serif" text-anchor="middle">B</text>
+      <!-- pins bottom -->
+      <g fill="#f0c040">
+        <rect x="80" y="152" width="20" height="12" rx="2"/>
+        <rect x="120" y="152" width="20" height="12" rx="2"/>
+        <rect x="160" y="152" width="20" height="12" rx="2"/>
+        <rect x="200" y="152" width="20" height="12" rx="2"/>
+        <rect x="240" y="152" width="20" height="12" rx="2"/>
+      </g>
+      <text x="90" y="162" fill="#000" font-size="7" font-family="sans-serif" text-anchor="middle">0</text>
+      <text x="130" y="162" fill="#000" font-size="7" font-family="sans-serif" text-anchor="middle">1</text>
+      <text x="170" y="162" fill="#000" font-size="7" font-family="sans-serif" text-anchor="middle">2</text>
+      <text x="210" y="162" fill="#000" font-size="7" font-family="sans-serif" text-anchor="middle">3V</text>
+      <text x="250" y="162" fill="#000" font-size="7" font-family="sans-serif" text-anchor="middle">GND</text>
+      <!-- labels -->
+      <text x="63" y="136" fill="#8b949e" font-size="8" font-family="sans-serif" text-anchor="middle">Button A</text>
+      <text x="277" y="136" fill="#8b949e" font-size="8" font-family="sans-serif" text-anchor="middle">Button B</text>
+      <text x="170" y="38" fill="#4ec9b0" font-size="9" font-family="sans-serif" text-anchor="middle">5×5 LED Display</text>
+    </svg>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">💡</div>
+      <div class="card-title">LED Display</div>
+      <p>25 tiny lights (5×5 grid). Shows letters, numbers, and pictures.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔘</div>
+      <div class="card-title">Buttons A & B</div>
+      <p>Two buttons on the sides. Press them to run code.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📳</div>
+      <div class="card-title">Accelerometer</div>
+      <p>A sensor inside. It feels movement — like shaking or tilting.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌡️</div>
+      <div class="card-title">Temperature Sensor</div>
+      <p>Measures how hot or cold the air is.</p>
+    </div>
+  </div>
+
+  <!-- 3 WAYS TO CODE -->
+  <h2>3 Ways to Code the micro:bit <span class="pg">p. 123</span></h2>
+
+  <div class="diagram">
+    <svg viewBox="0 0 700 120" width="680" xmlns="http://www.w3.org/2000/svg">
+      <!-- box1 -->
+      <rect x="20" y="20" width="180" height="80" rx="10" fill="#1e2530" stroke="#56d364" stroke-width="1.5"/>
+      <text x="110" y="55" fill="#56d364" font-size="13" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">🟩 MakeCode Blocks</text>
+      <text x="110" y="75" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">Drag &amp; drop colored blocks</text>
+      <text x="110" y="90" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">Easy for beginners</text>
+      <!-- arrow -->
+      <text x="225" y="64" fill="#4ec9b0" font-size="20" text-anchor="middle">⇄</text>
+      <!-- box2 -->
+      <rect x="260" y="20" width="180" height="80" rx="10" fill="#1e2530" stroke="#f0c040" stroke-width="2.5"/>
+      <text x="350" y="55" fill="#f0c040" font-size="13" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">🐍 Python</text>
+      <text x="350" y="75" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">Text-based code</text>
+      <text x="350" y="90" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">← We use this in Lesson 1!</text>
+      <!-- arrow -->
+      <text x="465" y="64" fill="#4ec9b0" font-size="20" text-anchor="middle">⇄</text>
+      <!-- box3 -->
+      <rect x="500" y="20" width="180" height="80" rx="10" fill="#1e2530" stroke="#79c0ff" stroke-width="1.5"/>
+      <text x="590" y="55" fill="#79c0ff" font-size="13" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">🌐 JavaScript</text>
+      <text x="590" y="75" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">Text-based code</text>
+      <text x="590" y="90" fill="#8b949e" font-size="10" font-family="sans-serif" text-anchor="middle">Used for web apps</text>
+    </svg>
+  </div>
+
+  <div class="info-box blue">
+    <span class="icon">🕰️</span>
+    <div><strong>History:</strong> Python was made by <strong>Guido van Rossum</strong> and first released in <strong>1991</strong>.</div>
+  </div>
+
+  <!-- BLOCKS TO PYTHON -->
+  <h2>From Blocks → Python <span class="pg">p. 124</span></h2>
+
+  <p>MakeCode can turn your block code into Python code. This helps you see how blocks become real text code.</p>
+
+  <div class="steps">
+    <div class="step"><div class="num-circle">1</div><p>Click the <strong>down arrow (▼)</strong> next to "Blocks" at the top.</p></div>
+    <div class="step"><div class="num-circle">2</div><p>Select <strong>Python</strong> from the list.</p></div>
+    <div class="step"><div class="num-circle">3</div><p>The blocks become <strong>text code</strong> automatically! 🎉</p></div>
+  </div>
+
+  <h3>Example: "Hello!" + Heart Icon</h3>
+  <pre><code><span class="ln">1</span><span class="fn">basic</span>.show_string(<span class="str">"Hello!"</span>)
+<span class="ln">2</span>
+<span class="ln">3</span><span class="kw">def</span> <span class="fn">on_forever</span>():
+<span class="ln">4</span>    <span class="fn">basic</span>.show_icon(<span class="fn">IconNames</span>.HEART)
+<span class="ln">5</span><span class="fn">basic</span>.forever(<span class="fn">on_forever</span>)</code></pre>
+
+  <div class="diagram">
+    <svg viewBox="0 0 600 100" width="580" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="150" height="60" rx="8" fill="#1a3a2a" stroke="#56d364" stroke-width="1.5"/>
+      <text x="95" y="46" fill="#56d364" font-size="10" font-family="Fira Code,monospace" text-anchor="middle">basic</text>
+      <text x="95" y="62" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Category (before the dot)</text>
+      <text x="95" y="76" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">e.g. basic, input, math</text>
+
+      <text x="200" y="54" fill="#4ec9b0" font-size="18" text-anchor="middle">.</text>
+
+      <rect x="220" y="20" width="180" height="60" rx="8" fill="#1a2a3a" stroke="#79c0ff" stroke-width="1.5"/>
+      <text x="310" y="46" fill="#79c0ff" font-size="10" font-family="Fira Code,monospace" text-anchor="middle">show_number(15)</text>
+      <text x="310" y="62" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Statement (after the dot)</text>
+      <text x="310" y="76" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">What action to do</text>
+
+      <text x="430" y="54" fill="#8b949e" font-size="22" text-anchor="middle">→</text>
+
+      <rect x="460" y="20" width="120" height="60" rx="8" fill="#2a1a2a" stroke="#c792ea" stroke-width="1.5"/>
+      <text x="520" y="54" fill="#c792ea" font-size="10" font-family="Fira Code,monospace" text-anchor="middle">Shows "15" on</text>
+      <text x="520" y="66" fill="#c792ea" font-size="10" font-family="Fira Code,monospace" text-anchor="middle">the LED screen</text>
+    </svg>
+  </div>
+
+  <!-- PYTHON TO BLOCKS -->
+  <h2>From Python → Blocks <span class="pg">p. 125</span></h2>
+  <p>You can also go the other way! Change the Python code and click <strong>Blocks</strong> — the blocks update too.</p>
+
+  <div class="info-box yellow">
+    <span class="icon">⚠️</span>
+    <div>When you switch between Blocks and Python, the simulator briefly <strong>pauses</strong> and then continues.</div>
+  </div>
+
+  <!-- PROGRAMMING IN PYTHON -->
+  <h2>Programming in Python <span class="pg">p. 126–127</span></h2>
+  <p>Python statements in MakeCode are sorted into <strong>categories</strong> — just like blocks are.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Statement</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>basic.show_string()</code></td><td>Shows a word or sentence on the LED screen (scrolls left)</td><td><code>basic.show_string("Hello!")</code></td></tr>
+      <tr><td><code>basic.show_number()</code></td><td>Shows a number. Single-digit stays still; 2+ digits scroll.</td><td><code>basic.show_number(15)</code></td></tr>
+      <tr><td><code>basic.show_icon()</code></td><td>Shows a built-in picture (icon) on the LED screen</td><td><code>basic.show_icon(IconNames.HEART)</code></td></tr>
+      <tr><td><code>basic.show_leds()</code></td><td>Draw your own image on the LED screen</td><td>—</td></tr>
+      <tr><td><code>basic.forever()</code></td><td>Runs a function over and over without stopping</td><td><code>basic.forever(on_forever)</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Full example: Show number 15 forever</h3>
+  <pre><code><span class="ln">1</span><span class="kw">def</span> <span class="fn">on_forever</span>():
+<span class="ln">2</span>    <span class="fn">basic</span>.show_number(<span class="num">15</span>)
+<span class="ln">3</span><span class="fn">basic</span>.forever(<span class="fn">on_forever</span>)</code></pre>
+
+  <!-- BUTTONS -->
+  <h2>Micro:bit's Buttons <span class="pg">p. 128–130</span></h2>
+  <p>You can make the micro:bit do something when you <strong>press a button</strong>.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🅰️</div>
+      <div class="card-title">Button A pressed</div>
+      <p>Run code when button A is pushed.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🅱️</div>
+      <div class="card-title">Button B pressed</div>
+      <p>Run code when button B is pushed.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🆎</div>
+      <div class="card-title">A + B pressed</div>
+      <p>Run code when both buttons are pushed together.</p>
+    </div>
+  </div>
+
+  <h3>Button code pattern</h3>
+  <pre><code><span class="ln">1</span><span class="kw">def</span> <span class="fn">on_button_pressed_a</span>():
+<span class="ln">2</span>    <span class="fn">basic</span>.show_leds(<span class="str">"letter A shape"</span>)
+<span class="ln">3</span><span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.A, on_button_pressed_a)
+<span class="ln">4</span>
+<span class="ln">5</span><span class="kw">def</span> <span class="fn">on_button_pressed_b</span>():
+<span class="ln">6</span>    <span class="fn">basic</span>.show_leds(<span class="str">"letter B shape"</span>)
+<span class="ln">7</span><span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.B, on_button_pressed_b)</code></pre>
+
+  <div class="info-box pink">
+    <span class="icon">💡</span>
+    <div>The <strong>pass</strong> keyword is a placeholder. It means "nothing here yet — add your code!"</div>
+  </div>
+
+  <!-- SHAKE -->
+  <h2>Micro:bit Responds on Shaking <span class="pg">p. 131–132</span></h2>
+
+  <div class="diagram">
+    <svg viewBox="0 0 600 110" width="580" xmlns="http://www.w3.org/2000/svg">
+      <!-- shake sensor box -->
+      <rect x="10" y="15" width="160" height="80" rx="10" fill="#1e2530" stroke="#c792ea" stroke-width="1.5"/>
+      <text x="90" y="45" fill="#c792ea" font-size="12" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">📳 Accelerometer</text>
+      <text x="90" y="62" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Sensor inside micro:bit</text>
+      <text x="90" y="76" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Detects: shaking, tilting,</text>
+      <text x="90" y="88" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">movement</text>
+      <!-- arrow -->
+      <text x="195" y="62" fill="#4ec9b0" font-size="22" text-anchor="middle">→</text>
+      <!-- event box -->
+      <rect x="220" y="15" width="170" height="80" rx="10" fill="#1e2530" stroke="#f0c040" stroke-width="1.5"/>
+      <text x="305" y="45" fill="#f0c040" font-size="12" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">🤝 on_gesture_shake</text>
+      <text x="305" y="62" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Function runs automatically</text>
+      <text x="305" y="76" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">when shaking is detected</text>
+      <!-- arrow -->
+      <text x="415" y="62" fill="#4ec9b0" font-size="22" text-anchor="middle">→</text>
+      <!-- result box -->
+      <rect x="440" y="15" width="150" height="80" rx="10" fill="#1e2530" stroke="#56d364" stroke-width="1.5"/>
+      <text x="515" y="45" fill="#56d364" font-size="12" font-family="Baloo 2,sans-serif" font-weight="700" text-anchor="middle">🎲 randint(1, 9)</text>
+      <text x="515" y="62" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">Random number appears</text>
+      <text x="515" y="76" fill="#8b949e" font-size="9" font-family="sans-serif" text-anchor="middle">on LED screen</text>
+    </svg>
+  </div>
+
+  <pre><code><span class="ln">1</span><span class="kw">def</span> <span class="fn">on_gesture_shake</span>():
+<span class="ln">2</span>    <span class="fn">basic</span>.show_number(<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">9</span>))
+<span class="ln">3</span><span class="fn">input</span>.on_gesture(<span class="fn">Gesture</span>.SHAKE, on_gesture_shake)</code></pre>
+
+  <div class="info-box green">
+    <span class="icon">🎲</span>
+    <div><strong>randint(min, max)</strong> gives a <strong>random number</strong> between min and max (both included). Example: <code>randint(1, 9)</code> can give 1, 2, 3 … or 9.</div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <h2>Quick Reference Summary <span class="pg">p. 122–132</span></h2>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>What you want to do</th><th>Python code to use</th></tr>
+      <tr><td>Show a word on screen</td><td><code>basic.show_string("Hello!")</code></td></tr>
+      <tr><td>Show a number on screen</td><td><code>basic.show_number(15)</code></td></tr>
+      <tr><td>Show an icon (picture)</td><td><code>basic.show_icon(IconNames.HEART)</code></td></tr>
+      <tr><td>Do something when button A pressed</td><td><code>input.on_button_pressed(Button.A, ...)</code></td></tr>
+      <tr><td>Do something when button B pressed</td><td><code>input.on_button_pressed(Button.B, ...)</code></td></tr>
+      <tr><td>Do something when both A+B pressed</td><td><code>input.on_button_pressed(Button.AB, ...)</code></td></tr>
+      <tr><td>Do something when shaken</td><td><code>input.on_gesture(Gesture.SHAKE, ...)</code></td></tr>
+      <tr><td>Random number between 1 and 9</td><td><code>randint(1, 9)</code></td></tr>
+      <tr><td>Loop forever</td><td><code>basic.forever(on_forever)</code></td></tr>
+    </table>
+  </div>
+
+</div><!-- /guide -->
+
+
+<!-- ═══════════════════════════════════════════════
+     TAB 2 · QUIZ
+═══════════════════════════════════════════════ -->
+<div id="quiz" class="tab-content">
+
+  <!-- PASSWORD GATE -->
+  <div id="quiz-gate">
+    <div style="max-width:380px;margin:60px auto;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:36px 32px;text-align:center;">
+      <div style="font-size:2.4rem;margin-bottom:12px;">🔐</div>
+      <div style="font-family:'Baloo 2',sans-serif;font-size:1.3rem;font-weight:800;color:var(--accent);margin-bottom:6px;">Quiz Access</div>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:22px;">Enter the 4-digit password to start the quiz.</p>
+      <input id="quiz-gate-input" type="password" maxlength="4"
+        style="width:100%;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Fira Code',monospace;font-size:1.4rem;letter-spacing:.3em;text-align:center;padding:12px;margin-bottom:12px;"
+        placeholder="• • • •" onkeydown="if(event.key==='Enter')checkQuizGate()">
+      <div id="quiz-gate-error" style="color:var(--accent4);font-size:.85rem;margin-bottom:12px;display:none;">❌ Wrong password. Try again.</div>
+      <button onclick="checkQuizGate()"
+        style="width:100%;padding:12px;background:var(--accent);color:#000;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1rem;border:none;border-radius:8px;cursor:pointer;">
+        Enter Quiz
+      </button>
+    </div>
+  </div>
+
+  <!-- QUIZ CONTENT (hidden until password entered) -->
+  <div id="quiz-inner" style="display:none;">
+
+  <div class="quiz-header">
+    <div class="score-area">📝 Hands On! Quiz &nbsp;·&nbsp; <span style="color:var(--muted)">Pages 134–135</span></div>
+    <div id="timer-display">⏱ 5:00</div>
+  </div>
+
+  <form id="quiz-form">
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-num">Question 1 &nbsp;·&nbsp; p.134</div>
+      <div class="q-text">How do you convert a MakeCode block program into Python?</div>
+      <label class="option-label"><input type="radio" name="q1" value="a"> a. Click the "Convert to Python" button.</label>
+      <label class="option-label"><input type="radio" name="q1" value="b"> b. Select "JavaScript" in the drop-down list.</label>
+      <label class="option-label"><input type="radio" name="q1" value="c"> c. Click the drop-down list of programming languages and select "Python."</label>
+      <label class="option-label"><input type="radio" name="q1" value="d"> d. Use the "Save" button to save the code.</label>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-num">Question 2 &nbsp;·&nbsp; p.134</div>
+      <div class="q-text">Which Python function would display the message "Hello!" on the micro:bit's LED matrix?</div>
+      <label class="option-label"><input type="radio" name="q2" value="a"> a. <code>basic.show_icon()</code></label>
+      <label class="option-label"><input type="radio" name="q2" value="b"> b. <code>basic.show_number()</code></label>
+      <label class="option-label"><input type="radio" name="q2" value="c"> c. <code>basic.show_string()</code></label>
+      <label class="option-label"><input type="radio" name="q2" value="d"> d. <code>input.on_button_pressed()</code></label>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-num">Question 3 &nbsp;·&nbsp; p.134</div>
+      <div class="q-text">Which Python statement would display the number 10 on the micro:bit's LED matrix?</div>
+      <label class="option-label"><input type="radio" name="q3" value="a"> a. <code>basic.show_string(10)</code></label>
+      <label class="option-label"><input type="radio" name="q3" value="b"> b. <code>basic.show_leds(10)</code></label>
+      <label class="option-label"><input type="radio" name="q3" value="c"> c. <code>basic.show_number(10)</code></label>
+      <label class="option-label"><input type="radio" name="q3" value="d"> d. <code>basic.show_icon(10)</code></label>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-num">Question 4 &nbsp;·&nbsp; p.134</div>
+      <div class="q-text">What is the purpose of the <code>input.on_button_pressed()</code> statement in micro:bit Python?</div>
+      <label class="option-label"><input type="radio" name="q4" value="a"> a. It lights up the LED display.</label>
+      <label class="option-label"><input type="radio" name="q4" value="b"> b. It displays text when a button is pressed.</label>
+      <label class="option-label"><input type="radio" name="q4" value="c"> c. It waits for a button (A or B) to be pressed and then runs a function.</label>
+      <label class="option-label"><input type="radio" name="q4" value="d"> d. It makes a sound when a button is pressed.</label>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-block">
+      <div class="q-num">Question 5 &nbsp;·&nbsp; p.134</div>
+      <div class="q-text">What is the purpose of the "on shake" function in micro:bit Python?</div>
+      <label class="option-label"><input type="radio" name="q5" value="a"> a. It detects when the micro:bit is pressed.</label>
+      <label class="option-label"><input type="radio" name="q5" value="b"> b. It triggers an action when the micro:bit is shaken.</label>
+      <label class="option-label"><input type="radio" name="q5" value="c"> c. It displays a random number on the LED matrix.</label>
+      <label class="option-label"><input type="radio" name="q5" value="d"> d. It powers off the micro:bit when shaken.</label>
+    </div>
+
+    <!-- Q6 – textbook Q2 (button A/B/AB table) -->
+    <div class="q-block">
+      <div class="q-num">Question 6 &nbsp;·&nbsp; p.135</div>
+      <div class="q-text">Look at the program below. What is displayed on the LED screen when button <strong>B</strong> is pressed?
+        <pre><code>def on_button_pressed_a():
+    basic.show_string("Left")
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_ab():
+    basic.show_icon(IconNames.HAPPY)
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+def on_button_pressed_b():
+    basic.show_string("Right")
+input.on_button_pressed(Button.B, on_button_pressed_b)</code></pre>
+      </div>
+      <label class="option-label"><input type="radio" name="q6" value="a"> a. "Left"</label>
+      <label class="option-label"><input type="radio" name="q6" value="b"> b. "Right"</label>
+      <label class="option-label"><input type="radio" name="q6" value="c"> c. Happy face icon</label>
+      <label class="option-label"><input type="radio" name="q6" value="d"> d. Nothing</label>
+    </div>
+
+    <!-- Q7 – creative / extended question -->
+    <div class="q-block">
+      <div class="q-num">Question 7 &nbsp;·&nbsp; Creative Question 🌟</div>
+      <div class="q-text">You want to make a "dice" app. When you shake the micro:bit, it shows a random number from 1 to 6. Which line of code correctly shows the random number on the LED screen?</div>
+      <label class="option-label"><input type="radio" name="q7" value="a"> a. <code>basic.show_number(randint(1, 6))</code></label>
+      <label class="option-label"><input type="radio" name="q7" value="b"> b. <code>basic.show_string(randint(1, 6))</code></label>
+      <label class="option-label"><input type="radio" name="q7" value="c"> c. <code>input.on_gesture(1, 6)</code></label>
+      <label class="option-label"><input type="radio" name="q7" value="d"> d. <code>basic.show_number(shake())</code></label>
+    </div>
+
+    <button type="button" class="submit-btn" id="submit-btn" onclick="submitQuiz()">Submit All Answers</button>
+  </form>
+
+  <div id="quiz-result">
+    <div class="big-score" id="score-text"></div>
+    <p id="score-msg"></p>
+  </div>
+
+  </div><!-- /quiz-inner -->
+</div><!-- /quiz -->
+
+
+<!-- ═══════════════════════════════════════════════
+     TAB 3 · CODING PROBLEMS
+═══════════════════════════════════════════════ -->
+<div id="coding" class="tab-content">
+
+  <div class="info-box yellow" style="margin-bottom:24px;">
+    <span class="icon">🔒</span>
+    <div>Answers are hidden. Enter the password to reveal each answer.</div>
+  </div>
+
+  <!-- LEVEL 1 -->
+  <div class="prob-block">
+    <div class="prob-header">
+      <span class="level-badge lv1">Level 1</span>
+      <span class="prob-title">Show Your Name</span>
+    </div>
+    <div class="prob-body">
+      <p>Write a Python program for the micro:bit that scrolls your name on the LED screen when the program starts.</p>
+      <div class="io-grid">
+        <div class="io-box"><div class="label">What it should do</div><code>Shows your name scrolling on the LED screen.</code></div>
+        <div class="io-box"><div class="label">Example</div><code>Name: "Alex" → LED shows A-l-e-x scrolling</code></div>
+      </div>
+      <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+      <div class="hint-text">Use <code>basic.show_string("YourName")</code>. Replace YourName with your real name!</div>
+      <div class="answer-section">
+        <div class="answer-pw-form">
+          <input class="pw-input" type="password" placeholder="Enter password…">
+          <button class="pw-btn" onclick="checkPw(this)">Unlock</button>
+        </div>
+        <div class="pw-error">❌ Wrong password. Try again.</div>
+        <div class="answer-code">
+<pre><code><span class="cm"># Show your name on the LED screen</span>
+<span class="fn">basic</span>.show_string(<span class="str">"Alex"</span>)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 2 -->
+  <div class="prob-block">
+    <div class="prob-header">
+      <span class="level-badge lv2">Level 2</span>
+      <span class="prob-title">Button Counter Display</span>
+    </div>
+    <div class="prob-body">
+      <p>When button A is pressed, show the number <strong>1</strong> on the LED screen. When button B is pressed, show the number <strong>2</strong>.</p>
+      <div class="io-grid">
+        <div class="io-box"><div class="label">Input</div><code>Press button A or button B</code></div>
+        <div class="io-box"><div class="label">Output</div><code>Button A → shows 1<br>Button B → shows 2</code></div>
+      </div>
+      <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+      <div class="hint-text">Use <code>input.on_button_pressed(Button.A, ...)</code> and <code>basic.show_number(1)</code> inside the function.</div>
+      <div class="answer-section">
+        <div class="answer-pw-form">
+          <input class="pw-input" type="password" placeholder="Enter password…">
+          <button class="pw-btn" onclick="checkPw(this)">Unlock</button>
+        </div>
+        <div class="pw-error">❌ Wrong password. Try again.</div>
+        <div class="answer-code">
+<pre><code><span class="kw">def</span> <span class="fn">on_button_pressed_a</span>():
+    <span class="fn">basic</span>.show_number(<span class="num">1</span>)
+<span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.A, on_button_pressed_a)
+
+<span class="kw">def</span> <span class="fn">on_button_pressed_b</span>():
+    <span class="fn">basic</span>.show_number(<span class="num">2</span>)
+<span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.B, on_button_pressed_b)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 3 -->
+  <div class="prob-block">
+    <div class="prob-header">
+      <span class="level-badge lv3">Level 3</span>
+      <span class="prob-title">Shake the Dice</span>
+    </div>
+    <div class="prob-body">
+      <p>Create a dice program! When the micro:bit is shaken, show a <strong>random number from 1 to 6</strong> on the LED screen.</p>
+      <div class="io-grid">
+        <div class="io-box"><div class="label">Input</div><code>Shake the micro:bit</code></div>
+        <div class="io-box"><div class="label">Output</div><code>LED shows random number: 1, 2, 3, 4, 5, or 6</code></div>
+      </div>
+      <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+      <div class="hint-text">Use <code>input.on_gesture(Gesture.SHAKE, ...)</code> and <code>randint(1, 6)</code> inside <code>basic.show_number()</code>.</div>
+      <div class="answer-section">
+        <div class="answer-pw-form">
+          <input class="pw-input" type="password" placeholder="Enter password…">
+          <button class="pw-btn" onclick="checkPw(this)">Unlock</button>
+        </div>
+        <div class="pw-error">❌ Wrong password. Try again.</div>
+        <div class="answer-code">
+<pre><code><span class="kw">def</span> <span class="fn">on_gesture_shake</span>():
+    <span class="fn">basic</span>.show_number(<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">6</span>))
+<span class="fn">input</span>.on_gesture(<span class="fn">Gesture</span>.SHAKE, on_gesture_shake)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 4 -->
+  <div class="prob-block">
+    <div class="prob-header">
+      <span class="level-badge lv4">Level 4</span>
+      <span class="prob-title">Boo! Ghost Program</span>
+    </div>
+    <div class="prob-body">
+      <p>Make a "BOO!" program. When the program <strong>starts</strong>, display the message <strong>"BOO...!"</strong>. Then, display a <strong>ghost icon</strong> on the LED screen forever.</p>
+      <div class="io-grid">
+        <div class="io-box"><div class="label">On start</div><code>"BOO...!" scrolls across the LED</code></div>
+        <div class="io-box"><div class="label">Forever</div><code>Ghost icon stays on the LED screen</code></div>
+      </div>
+      <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+      <div class="hint-text">Use <code>basic.show_string("BOO...!")</code> first, then create an <code>on_forever</code> function with <code>basic.show_icon(IconNames.GHOST)</code>.</div>
+      <div class="answer-section">
+        <div class="answer-pw-form">
+          <input class="pw-input" type="password" placeholder="Enter password…">
+          <button class="pw-btn" onclick="checkPw(this)">Unlock</button>
+        </div>
+        <div class="pw-error">❌ Wrong password. Try again.</div>
+        <div class="answer-code">
+<pre><code><span class="cm"># Show "BOO...!" when the program starts</span>
+<span class="fn">basic</span>.show_string(<span class="str">"BOO...!"</span>)
+
+<span class="cm"># Show ghost icon forever</span>
+<span class="kw">def</span> <span class="fn">on_forever</span>():
+    <span class="fn">basic</span>.show_icon(<span class="fn">IconNames</span>.GHOST)
+<span class="fn">basic</span>.forever(<span class="fn">on_forever</span>)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 5 -->
+  <div class="prob-block">
+    <div class="prob-header">
+      <span class="level-badge lv5">Level 5</span>
+      <span class="prob-title">Full Button + Shake Program</span>
+    </div>
+    <div class="prob-body">
+      <p>Build a complete program that does all three things:</p>
+      <ul style="font-size:.9rem; color:var(--text); margin:8px 0 12px 20px; line-height:2;">
+        <li>Button <strong>A</strong> → show the word <code>"Left"</code></li>
+        <li>Button <strong>B</strong> → show the word <code>"Right"</code></li>
+        <li>Buttons <strong>A + B</strong> → show a <code>HAPPY</code> icon</li>
+        <li>Shake → show a random number from <code>1 to 9</code></li>
+      </ul>
+      <div class="io-grid">
+        <div class="io-box"><div class="label">Inputs</div><code>Button A, B, A+B, Shake</code></div>
+        <div class="io-box"><div class="label">Outputs</div><code>"Left", "Right", 😊, random 1–9</code></div>
+      </div>
+      <button class="hint-toggle" onclick="toggleHint(this)">💡 Show Hint</button>
+      <div class="hint-text">Combine all the patterns you learned. You need 4 separate functions: one for each event.</div>
+      <div class="answer-section">
+        <div class="answer-pw-form">
+          <input class="pw-input" type="password" placeholder="Enter password…">
+          <button class="pw-btn" onclick="checkPw(this)">Unlock</button>
+        </div>
+        <div class="pw-error">❌ Wrong password. Try again.</div>
+        <div class="answer-code">
+<pre><code><span class="cm"># Button A → "Left"</span>
+<span class="kw">def</span> <span class="fn">on_button_pressed_a</span>():
+    <span class="fn">basic</span>.show_string(<span class="str">"Left"</span>)
+<span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.A, on_button_pressed_a)
+
+<span class="cm"># Button B → "Right"</span>
+<span class="kw">def</span> <span class="fn">on_button_pressed_b</span>():
+    <span class="fn">basic</span>.show_string(<span class="str">"Right"</span>)
+<span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.B, on_button_pressed_b)
+
+<span class="cm"># Buttons A+B → Happy face icon</span>
+<span class="kw">def</span> <span class="fn">on_button_pressed_ab</span>():
+    <span class="fn">basic</span>.show_icon(<span class="fn">IconNames</span>.HAPPY)
+<span class="fn">input</span>.on_button_pressed(<span class="fn">Button</span>.AB, on_button_pressed_ab)
+
+<span class="cm"># Shake → random number 1 to 9</span>
+<span class="kw">def</span> <span class="fn">on_gesture_shake</span>():
+    <span class="fn">basic</span>.show_number(<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">9</span>))
+<span class="fn">input</span>.on_gesture(<span class="fn">Gesture</span>.SHAKE, on_gesture_shake)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /coding -->
+
+
+<script>
+// ── QUIZ GATE ──
+const QUIZ_PW = '3847';
+let quizUnlocked = false;
+
+function checkQuizGate() {
+  const val = document.getElementById('quiz-gate-input').value;
+  if (val === QUIZ_PW) {
+    quizUnlocked = true;
+    document.getElementById('quiz-gate').style.display = 'none';
+    document.getElementById('quiz-inner').style.display = 'block';
+    if (!timerStarted) startTimer();
+  } else {
+    document.getElementById('quiz-gate-error').style.display = 'block';
+    document.getElementById('quiz-gate-input').value = '';
+  }
+}
+
+// ── TABS ──
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TIMER ──
+let timeLeft = 300;
+let timerInterval = null;
+let timerStarted = false;
+let quizSubmitted = false;
+
+function startTimer() {
+  timerStarted = true;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    const el = document.getElementById('timer-display');
+    el.textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+    if (timeLeft <= 30) el.classList.add('danger');
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      el.textContent = '⏱ 0:00';
+      if (!quizSubmitted) submitQuiz(true);
+    }
+  }, 1000);
+}
+
+// ── QUIZ SUBMIT ──
+const ANSWERS = { q1:'c', q2:'c', q3:'c', q4:'c', q5:'b', q6:'b', q7:'a' };
+
+function submitQuiz(forced) {
+  if (quizSubmitted) return;
+  quizSubmitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submit-btn').disabled = true;
+
+  let correct = 0;
+  for (const [q, ans] of Object.entries(ANSWERS)) {
+    const chosen = document.querySelector(`input[name="${q}"]:checked`);
+    const options = document.querySelectorAll(`input[name="${q}"]`);
+    options.forEach(opt => {
+      const lbl = opt.parentElement;
+      if (opt.value === ans) lbl.classList.add('correct');
+      else if (opt.checked) lbl.classList.add('wrong');
+      opt.disabled = true;
+    });
+    if (chosen && chosen.value === ans) correct++;
+  }
+
+  const total = Object.keys(ANSWERS).length;
+  const pct = Math.round(correct / total * 100);
+  const msgs = ['Keep studying! 💪', 'Good effort! 😊', 'Nice work! 👍', 'Great job! 🌟', 'Perfect! 🏆'];
+  const msgIdx = Math.floor(pct / 25);
+  document.getElementById('score-text').textContent = `${correct} / ${total}`;
+  document.getElementById('score-msg').textContent = `${pct}% — ${msgs[Math.min(msgIdx, 4)]}${forced ? ' (Time ran out!)' : ''}`;
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-result').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── HINT TOGGLE ──
+function toggleHint(btn) {
+  const hint = btn.nextElementSibling;
+  const visible = hint.style.display === 'block';
+  hint.style.display = visible ? 'none' : 'block';
+  btn.textContent = visible ? '💡 Show Hint' : '🙈 Hide Hint';
+}
+
+// ── PASSWORD ──
+function checkPw(btn) {
+  const form = btn.parentElement;
+  const input = form.querySelector('.pw-input');
+  const err = form.nextElementSibling;   // .pw-error
+  const ans = form.nextElementSibling.nextElementSibling; // .answer-code
+  if (input.value === 'csa1') {
+    err.style.display = 'none';
+    ans.style.display = 'block';
+    form.style.display = 'none';
+  } else {
+    err.style.display = 'block';
+    input.value = '';
+  }
+}
+</script>
+
+</body>
+</html>
